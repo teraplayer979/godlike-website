@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | GodLike Esports</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#050505',
+                        charcoal: '#121212',
+                        gold: {
+                            DEFAULT: '#FFCC00',
+                            glow: 'rgba(255, 204, 0, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle ambient glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(circle at top, rgba(255, 204, 0, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFCC00;
+        }
+        ::selection {
+            background: #FFCC00;
+            color: #050505;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Card Hover Effects */
+        .contact-card {
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .contact-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
+            border-color: rgba(255, 204, 0, 0.5);
+        }
+        .contact-card:hover .icon-gold {
+            color: #FFCC00;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div class="ambient-glow"></div>
+
+    <nav class="fixed w-full top-0 z-50 bg-obsidian/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-display font-bold text-xl tracking-widest text-white hover:text-gold transition-colors">
+                GODLIKE
+            </a>
+            <div class="hidden md:flex items-center gap-8 font-display text-xs tracking-widest font-semibold text-white/70">
+                <a href="index.html" class="hover:text-gold transition-colors">HOME</a>
+                <a href="#" class="text-gold">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-24">
+        
+        <header class="text-center px-6 mb-20 reveal">
+            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight uppercase">
+                Contact Us
+            </h1>
+            <div class="w-16 h-1 bg-gold mx-auto mt-8 shadow-[0_0_15px_rgba(255,204,0,0.4)]"></div>
+            <p class="font-display text-xs md:text-sm tracking-[0.2em] text-white/50 mt-8 uppercase">
+                Connect With The Gold Standard of Indian Esports
+            </p>
+        </header>
+
+        <div class="max-w-[800px] mx-auto px-6">
+            
+            <div class="reveal text-center md:text-left">
+                <h2 class="font-display text-xl text-white mb-2 uppercase tracking-wide">Contact Us</h2>
+                <p class="font-display text-xs tracking-[0.2em] text-gold mb-8 uppercase">
+                    Effective Date: January 1, 2026
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    Thank you for your interest in <strong class="text-white font-medium">GodLike Esports</strong>.
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    We appreciate our community, partners, and supporters.
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed">
+                    If you wish to connect with us, please use the official contact details below.
+                </p>
+            </div>
+
+            <hr class="border-t border-gold/20 my-16 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">01 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Official Contact Information</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-8">
+                    For business inquiries, sponsorships, collaborations, or media discussions:
+                </p>
+                
+                <div class="max-w-md mb-8">
+                    <a href="mailto:contact@godlikeesports.com" class="contact-card bg-charcoal border border-white/10 rounded-xl p-6 flex items-center gap-5 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center transition-colors group-hover:bg-gold/10">
+                            <svg class="w-5 h-5 text-white/60 icon-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-display tracking-widest text-white/40 mb-1 uppercase">Email</p>
+                            <p class="text-white font-medium group-hover:text-gold transition-colors text-sm sm:text-base">contact@godlikeesports.com</p>
+                        </div>
+                    </a>
+                </div>
+
+                <p class="text-white/60 font-light italic text-sm">
+                    We aim to respond to relevant inquiries as soon as possible.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">02 //</span>
+                <h2 class="font-display text-2xl text-white mb-8 uppercase">Official Platforms</h2>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <a href="https://youtube.com/@godlikeesports" target="_blank" rel="noopener noreferrer" class="contact-card bg-charcoal border border-white/5 rounded-lg p-5 flex items-center gap-4 group">
+                        <svg class="w-6 h-6 text-white/50 icon-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        <span class="text-white/80 font-medium group-hover:text-gold transition-colors">YouTube</span>
+                    </a>
+
+                    <a href="https://instagram.com/godlike.in" target="_blank" rel="noopener noreferrer" class="contact-card bg-charcoal border border-white/5 rounded-lg p-5 flex items-center gap-4 group">
+                        <svg class="w-6 h-6 text-white/50 icon-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                        <span class="text-white/80 font-medium group-hover:text-gold transition-colors">Instagram</span>
+                    </a>
+
+                    <a href="https://x.com/GodLike_in" target="_blank" rel="noopener noreferrer" class="contact-card bg-charcoal border border-white/5 rounded-lg p-5 flex items-center gap-4 group">
+                        <svg class="w-6 h-6 text-white/50 icon-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 4.15H5.078z"/>
+                        </svg>
+                        <span class="text-white/80 font-medium group-hover:text-gold transition-colors">X (Twitter)</span>
+                    </a>
+                </div>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">03 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Important Notice</h2>
+                <div class="bg-gold/5 border-l-2 border-gold p-6 rounded-r-lg">
+                    <p class="text-white/90 font-light leading-relaxed mb-3">
+                        GodLike Esports does not provide support through unofficial accounts.
+                    </p>
+                    <p class="text-white/90 font-light leading-relaxed">
+                        Please ensure you are contacting verified and official platforms only.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 bg-obsidian py-10 relative z-10">
+        <div class="max-w-[1200px] mx-auto px-6 text-center">
+            <h2 class="font-display text-xl font-bold text-white tracking-widest mb-4">GODLIKE ESPORTS</h2>
+            <p class="font-display text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                &copy; 2026 GodLike Esports. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px 0px -10% 0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Stop observing once animated
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAIVAAN | GodLike Esports</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
+        :root {
+            --obsidian: #050505;
+            --charcoal: #121212;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.75); /* High contrast for readability */
+            --text-faint: rgba(255, 255, 255, 0.45); /* High contrast for readability */
+            --accent-yellow: #FFCC00; /* Matte yellow, no gradients */
+            --border-color: rgba(255, 255, 255, 0.15);
+            --ease-cinematic: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            background-color: var(--obsidian);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* =========================================
+           2. TYPOGRAPHY
+           ========================================= */
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Massive Background Typography */
+        .bg-text-wrapper {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .bg-text {
+            font-size: clamp(5rem, 16vw, 25rem);
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.04); /* Visible but subtle */
+            letter-spacing: -0.05em;
+            line-height: 1;
+        }
+
+        /* =========================================
+           3. LAYOUT & SECTIONS
+           ========================================= */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12vh 5%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 15vh;
+        }
+
+        .hero-image-wrapper {
+            width: 100%;
+            max-width: 450px;
+            height: 50vh;
+            margin-bottom: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+        }
+
+        .hero-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.9));
+        }
+
+        .hero-role {
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
+            letter-spacing: 0.4em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-quote {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--accent-yellow);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Basic Info Section --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 4rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        /* --- About Section --- */
+        .about-section {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .about-text strong {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* --- Journey / Timeline Section --- */
+        .journey-section {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 6vh;
+        }
+
+        .section-header {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            letter-spacing: 0.1em;
+            margin-bottom: 4rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2.35rem; /* Aligns with the border */
+            top: 0.4rem;
+            width: 9px;
+            height: 9px;
+            background-color: var(--accent-yellow);
+            border-radius: 50%;
+        }
+
+        .timeline-content {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.7;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* --- Social Links --- */
+        .social-section {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 2rem;
+            padding: 8vh 5%;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 1.2rem 3.5rem;
+            border: 1px solid var(--text-faint);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-family: 'Syncopate', sans-serif;
+            background: transparent;
+            font-weight: 700;
+            transition: all 0.8s var(--ease-cinematic);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-text {
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* =========================================
+           4. CINEMATIC REVEAL ANIMATIONS
+           ========================================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.2s var(--ease-cinematic), transform 1.2s var(--ease-cinematic);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger utilities for hero */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.5s; }
+
+        /* =========================================
+           5. APPENDED CSS (IMAGE BORDER)
+           ========================================= */
+        .hero-img {
+            border: 2px solid #FFCC00;
+            transition: box-shadow 0.6s var(--ease-cinematic), filter 0.6s var(--ease-cinematic);
+        }
+
+        .hero-img:hover {
+            box-shadow: 0 0 16px rgba(255, 204, 0, 0.25);
+        }
+
+        /* =========================================
+           6. MOBILE RESPONSIVE FIXES (BUTTONS)
+           ========================================= */
+        @media (max-width: 768px) {
+            .social-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+            .btn-outline {
+                width: 100%;
+                max-width: 350px;
+                text-align: center;
+                padding: 1.2rem 1rem;
+                letter-spacing: 0.15em;
+                font-size: 0.7rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="bg-text-wrapper">
+        <div class="bg-text font-display">HAIVAAN</div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-image-wrapper reveal active">
+                <img src="haivaan.png" alt="Haivaan Profile" class="hero-img">
+            </div>
+            
+            <h2 class="hero-role font-display reveal active delay-1">Esports Athlete</h2>
+            
+            <p class="hero-quote font-display reveal active delay-2">
+                "Control the moment."
+            </p>
+        </section>
+
+        <section id="info">
+            <div class="info-grid reveal">
+                <div class="info-item">
+                    <span class="info-label">Name</span>
+                    <span class="info-value">Haivaan</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Role</span>
+                    <span class="info-value">Esports Athlete</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Associated With</span>
+                    <span class="info-value">GodLike</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Nationality</span>
+                    <span class="info-value">Indian</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-section reveal">
+            <p class="about-text">
+                <strong>Haivaan</strong> is known for his composed in-game awareness and team-focused execution in competitive environments. <br><br>
+                His gameplay reflects calculated positioning, structured communication, and situational adaptability. Focused on consistency and long-term performance growth, he represents stability within the competitive lineup.
+            </p>
+        </section>
+
+        <section id="journey" class="journey-section">
+            <h3 class="section-header font-display reveal">The Progression</h3>
+            
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-content">Early competitive gaming involvement.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-content">Entry into structured esports competition.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-content">Development through tournament participation.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-content">Association with GodLike.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <p class="timeline-content">Continued competitive refinement.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="social" class="social-section reveal">
+            <a href="https://www.instagram.com/ha1vaan/" target="_blank" rel="noopener noreferrer" class="btn-outline">Instagram / @ha1vaan</a>
+
+            <a href="https://www.youtube.com/@haiVaan" target="_blank" rel="noopener noreferrer" class="btn-outline">YouTube / @ha1vaan</a>
+        </section>
+    </main>
+
+    <footer>
+        <p class="footer-text">&copy; GodLike Esports. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // Intersection Observer configuration for heavy, slow reveals
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px 0px -10% 0px", // Trigger slightly before it enters fully
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Unobserve to keep the element permanently visible after reveal
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Target all unrevealed cinematic elements
+            const revealElements = document.querySelectorAll('.reveal:not(.active)');
+            
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+        });
+    </script>
+</body>
+</html>

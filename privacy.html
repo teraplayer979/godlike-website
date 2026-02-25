@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | GodLike Esports</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#050505',
+                        charcoal: '#121212',
+                        gold: {
+                            DEFAULT: '#FFCC00',
+                            glow: 'rgba(255, 204, 0, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle ambient glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(circle at top, rgba(255, 204, 0, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFCC00;
+        }
+        ::selection {
+            background: #FFCC00;
+            color: #050505;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* List styling */
+        .policy-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .policy-list li::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            top: 0.1rem;
+            color: #FFCC00;
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div class="ambient-glow"></div>
+
+    <nav class="fixed w-full top-0 z-50 bg-obsidian/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
+           <a href="index.html" class="font-display font-bold text-xl tracking-widest text-white hover:text-gold transition-colors">
+    GODLIKE
+</a>
+<div class="hidden md:flex items-center gap-8 font-display text-xs tracking-widest font-semibold text-white/70">
+    <a href="index.html" class="hover:text-gold transition-colors">HOME</a>
+    <a href="#" class="text-gold">PRIVACY</a>
+</div>
+
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-24">
+        
+        <header class="text-center px-6 mb-20 reveal">
+            <h1 class="font-display text-4xl md:text-6xl font-bold text-white tracking-tight uppercase">
+                Privacy Policy
+            </h1>
+            <div class="w-16 h-1 bg-gold mx-auto mt-8 shadow-[0_0_15px_rgba(255,204,0,0.4)]"></div>
+            <p class="font-display text-xs md:text-sm tracking-[0.2em] text-white/50 mt-8 uppercase">
+                Effective Date: January 1, 2026
+            </p>
+        </header>
+
+        <div class="max-w-[800px] mx-auto px-6">
+            
+            <div class="reveal">
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    Welcome to <strong class="text-white font-medium">GodLike Esports</strong> (“we”, “our”, “us”).
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed">
+                    We value your privacy and are committed to maintaining transparency about how our website operates.
+                </p>
+            </div>
+
+            <hr class="border-t border-gold/20 my-16 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">01 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Information We Collect</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    GodLike Esports does not directly collect, store, or process personal information from visitors.
+                </p>
+                <ul class="policy-list text-white/80 font-light leading-relaxed">
+                    <li>No user registration is required.</li>
+                    <li>No personal data (such as name, email, or phone number) is collected.</li>
+                    <li>We do not maintain user accounts.</li>
+                </ul>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">02 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Cookies & Tracking</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    This website itself does not use tracking cookies, analytics tools, or advertising trackers.
+                </p>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    However, certain third-party services embedded on our website (such as YouTube videos or external links) may use cookies or collect data according to their own privacy policies.
+                </p>
+                <p class="text-white/80 font-light leading-relaxed">
+                    We do not control how third-party platforms collect or process data.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">03 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Embedded & External Content</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    Our website may contain:
+                </p>
+                <ul class="policy-list text-white/80 font-light leading-relaxed mb-4">
+                    <li>YouTube embedded videos</li>
+                    <li>Links to social media platforms (Instagram, X, Discord, etc.)</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed">
+                    When you interact with these services, their respective privacy policies apply.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">04 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Data Security</h2>
+                <p class="text-white/80 font-light leading-relaxed">
+                    Since we do not collect personal information directly, we do not store user data on our servers.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">05 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Children’s Privacy</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    This website is not intended for children under the age of 13.
+                </p>
+                <p class="text-white/80 font-light leading-relaxed">
+                    We do not knowingly collect information from children.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">06 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Updates to This Policy</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    We may update this Privacy Policy if website functionality changes in the future.
+                </p>
+                <p class="text-white/80 font-light leading-relaxed">
+                    The updated version will reflect a revised effective date.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">07 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Contact</h2>
+                <p class="text-white/80 font-light leading-relaxed">
+                    For privacy-related inquiries, you may reach out to us through our official social media channels.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 bg-obsidian py-10 relative z-10">
+        <div class="max-w-[1200px] mx-auto px-6 text-center">
+            <h2 class="font-display text-xl font-bold text-white tracking-widest mb-4">GODLIKE ESPORTS</h2>
+            <p class="font-display text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                &copy; 2026 GodLike Esports. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px 0px -10% 0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

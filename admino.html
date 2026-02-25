@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manya | GodLike Esports | Player Profile</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#050505',
+                        carbon: '#1A1A1A',
+                        gold: '#FFD700',
+                        goldDim: '#B8860B',
+                        platinum: '#E5E4E2',
+                    },
+                    fontFamily: {
+                        oswald: ['Oswald', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)',
+                        'void-gradient': 'linear-gradient(180deg, rgba(5,5,5,0) 0%, #050505 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #F0F0F0;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FFD700; }
+
+        /* Typography Effects */
+        .text-glow { text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+        
+        /* Tech Shapes */
+        .clip-tech { clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%); }
+        
+        /* Animations */
+        .hover-lift { transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-lift:hover { transform: translateY(-5px); }
+        
+        .stat-bar-fill { width: 0; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); }
+        
+        /* Scanlines */
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            position: absolute; inset: 0; pointer-events: none; z-index: 2;
+        }
+    </style>
+</head>
+<body class="font-rajdhani selection:bg-gold selection:text-black">
+
+    <nav class="fixed w-full z-50 bg-void/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="font-oswald font-bold text-3xl tracking-widest text-white">
+                    GOD<span class="text-gold text-glow">LIKE</span>
+                </a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-400 hover:text-white hover:text-glow transition-all font-bold tracking-widest text-sm uppercase">Home</a>
+                    <a href="#" class="text-gold border-b border-gold pb-1 font-bold tracking-widest text-sm uppercase">Roster</a>
+                    <a href="#" class="text-gray-400 hover:text-white hover:text-glow transition-all font-bold tracking-widest text-sm uppercase">Armory</a>
+                    <a href="#" class="text-gray-400 hover:text-white hover:text-glow transition-all font-bold tracking-widest text-sm uppercase">Arena</a>
+                    <a href="#" class="text-gray-400 hover:text-white hover:text-glow transition-all font-bold tracking-widest text-sm uppercase">Legacy</a>
+                </div>
+
+                <div class="md:hidden text-gold text-2xl"><i class="fas fa-bars"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-void via-void/80 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-void-gradient z-10"></div>
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Esports Background" class="w-full h-full object-cover opacity-40 grayscale">
+            <div class="scanlines"></div>
+        </div>
+
+        <div class="relative z-20 max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="inline-flex items-center gap-3 mb-4 border border-gold/30 bg-gold/5 px-4 py-1 rounded-sm backdrop-blur-sm">
+                    <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+                    <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase">Active Roster // IGL</span>
+                </div>
+                
+                <h1 class="font-oswald text-7xl md:text-9xl font-bold uppercase leading-none text-white mb-2">
+                    MAN<span class="text-transparent bg-clip-text bg-gold-gradient text-glow">YA</span>
+                </h1>
+                <h2 class="font-oswald text-4xl md:text-5xl font-light text-gray-500 uppercase mb-8">
+                    In-Game Leader
+                </h2>
+
+                <p class="text-gray-400 text-lg max-w-xl mb-10 leading-relaxed border-l-4 border-gold pl-6">
+                    Mohammad Raja, known as Manya, is a premier In-Game Leader (IGL) in the Indian BGMI circuit. Renowned for his tactical acumen and ability to secure championships across multiple organizations, he currently leads the charge for GodLike Esports.
+                </p>
+
+                <div class="flex flex-wrap gap-6">
+                    <div class="bg-carbon border border-white/10 px-6 py-4 min-w-[140px] clip-tech hover:border-gold transition-colors">
+                        <span class="block text-2xl font-oswald font-bold text-white">$81,690+</span>
+                        <span class="text-xs text-gray-500 uppercase tracking-widest">Total Winnings</span>
+                    </div>
+                    <div class="bg-carbon border border-white/10 px-6 py-4 min-w-[140px] clip-tech hover:border-gold transition-colors">
+                        <span class="block text-2xl font-oswald font-bold text-white">2022</span>
+                        <span class="text-xs text-gray-500 uppercase tracking-widest">Active Since</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2 relative h-[500px] lg:h-[600px] flex items-end justify-center lg:justify-end">
+                <div class="absolute inset-0 bg-gold/10 blur-[100px] rounded-full"></div>
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Manya" class="relative z-10 h-full object-contain mask-image-gradient grayscale contrast-125 drop-shadow-[0_0_15px_rgba(0,0,0,0.8)]">
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-carbon border-y border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-gray-500 text-xs uppercase tracking-widest font-bold mb-1">Full Name</h4>
+                    <p class="text-white font-oswald text-xl">Mohammad Raja</p>
+                </div>
+                <div>
+                    <h4 class="text-gray-500 text-xs uppercase tracking-widest font-bold mb-1">Born</h4>
+                    <p class="text-white font-oswald text-xl">September 23, 2000</p>
+                </div>
+                <div>
+                    <h4 class="text-gray-500 text-xs uppercase tracking-widest font-bold mb-1">Nationality</h4>
+                    <p class="text-white font-oswald text-xl">India <i class="fas fa-flag ml-2 text-gold"></i></p>
+                </div>
+                <div>
+                    <h4 class="text-gray-500 text-xs uppercase tracking-widest font-bold mb-1">Current Team</h4>
+                    <p class="text-white font-oswald text-xl">GodLike Esports</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-void relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div>
+                    <h3 class="font-oswald text-4xl text-white font-bold uppercase mb-8 flex items-center gap-4">
+                        Tactical Analysis <span class="h-px flex-1 bg-white/10"></span>
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between text-sm uppercase font-bold tracking-widest mb-2">
+                                <span class="text-gray-400">Leadership</span>
+                                <span class="text-gold">Elite</span>
+                            </div>
+                            <div class="h-2 w-full bg-black/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gold-gradient stat-bar-fill shadow-[0_0_10px_#FFD700]" style="width: 99%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm uppercase font-bold tracking-widest mb-2">
+                                <span class="text-gray-400">Zone Prediction</span>
+                                <span class="text-gold">High</span>
+                            </div>
+                            <div class="h-2 w-full bg-black/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gold-gradient stat-bar-fill" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm uppercase font-bold tracking-widest mb-2">
+                                <span class="text-gray-400">Game Sense</span>
+                                <span class="text-gold">Elite</span>
+                            </div>
+                            <div class="h-2 w-full bg-black/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gold-gradient stat-bar-fill" style="width: 98%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-sm uppercase font-bold tracking-widest mb-2">
+                                <span class="text-gray-400">Decision Making</span>
+                                <span class="text-gold">Tactical</span>
+                            </div>
+                            <div class="h-2 w-full bg-black/50 rounded-full overflow-hidden">
+                                <div class="h-full bg-gold-gradient stat-bar-fill" style="width: 94%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-carbon p-6 border border-white/10 clip-tech hover:border-gold/50 transition-colors">
+                        <i class="fas fa-brain text-3xl text-gray-600 mb-4"></i>
+                        <h4 class="font-oswald text-xl text-white uppercase mb-1">Role</h4>
+                        <p class="text-gold text-sm font-bold tracking-wider">IGL</p>
+                        <p class="text-gray-500 text-xs mt-2">Specializes in rotation planning and team coordination.</p>
+                    </div>
+
+                    <div class="bg-carbon p-6 border border-white/10 clip-tech hover:border-gold/50 transition-colors">
+                        <i class="fas fa-chess text-3xl text-gray-600 mb-4"></i>
+                        <h4 class="font-oswald text-xl text-white uppercase mb-1">Style</h4>
+                        <p class="text-gold text-sm font-bold tracking-wider">STRATEGIC</p>
+                        <p class="text-gray-500 text-xs mt-2">Focuses on positioning and survival for maximum placement points.</p>
+                    </div>
+
+                    <div class="bg-carbon p-6 border border-white/10 clip-tech hover:border-gold/50 transition-colors">
+                        <i class="fas fa-comments text-3xl text-gray-600 mb-4"></i>
+                        <h4 class="font-oswald text-xl text-white uppercase mb-1">Comms</h4>
+                        <p class="text-gold text-sm font-bold tracking-wider">PRECISE</p>
+                        <p class="text-gray-500 text-xs mt-2">Clear and decisive shot-calling during pressure situations.</p>
+                    </div>
+
+                    <div class="bg-carbon p-6 border border-white/10 clip-tech hover:border-gold/50 transition-colors">
+                        <i class="fas fa-crown text-3xl text-gray-600 mb-4"></i>
+                        <h4 class="font-oswald text-xl text-white uppercase mb-1">Mentality</h4>
+                        <p class="text-gold text-sm font-bold tracking-wider">CAPTAIN</p>
+                        <p class="text-gray-500 text-xs mt-2">Maintains team composure and adapts strategies mid-game.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-carbon relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-void to-transparent opacity-50"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <div class="lg:col-span-6 space-y-8">
+                <h2 class="font-oswald text-5xl md:text-6xl text-white font-bold uppercase">
+                    Career <span class="text-gold">Timeline</span>
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Manya's career trajectory showcases a rapid ascent to leadership roles within top-tier organizations. From his early days at Global Esports to championship runs with Blind Esports and Team Soul, he has consistently proven his capability to lead squads to victory. He joined GodLike Esports in 2025 to bring his championship-winning leadership to the roster.
+                </p>
+            </div>
+
+            <div class="lg:col-span-6 relative pl-8 border-l border-white/10">
+                <div class="space-y-12">
+                    
+                    <div class="relative group">
+                        <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-void border-2 border-gold shadow-[0_0_10px_#FFD700]"></span>
+                        <h4 class="font-oswald text-2xl text-white uppercase">2025 – Present</h4>
+                        <p class="text-gold font-bold text-sm tracking-widest mb-1">GODLIKE ESPORTS</p>
+                        <p class="text-gray-500 text-sm">Current In-Game Leader.</p>
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-void border-2 border-gray-600 group-hover:border-gold transition-colors"></span>
+                        <h4 class="font-oswald text-2xl text-white uppercase">2025 – 2025</h4>
+                        <p class="text-gold font-bold text-sm tracking-widest mb-1">WYLD FANGS</p>
+                        <p class="text-gray-500 text-sm">Leadership role.</p>
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-void border-2 border-gray-600 group-hover:border-gold transition-colors"></span>
+                        <h4 class="font-oswald text-2xl text-white uppercase">2025 – 2025</h4>
+                        <p class="text-gold font-bold text-sm tracking-widest mb-1">GLOBAL ESPORTS</p>
+                        <p class="text-gray-500 text-sm">Return to GE for a brief stint.</p>
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-void border-2 border-gray-600 group-hover:border-gold transition-colors"></span>
+                        <h4 class="font-oswald text-2xl text-white uppercase">2024 – 2025</h4>
+                        <p class="text-gold font-bold text-sm tracking-widest mb-1">TEAM SOUL</p>
+                        <p class="text-gray-500 text-sm">BGMI Masters Series Season 3 2024 Champion.</p>
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-void border-2 border-gray-600 group-hover:border-gold transition-colors"></span>
+                        <h4 class="font-oswald text-2xl text-white uppercase">2023 – 2023</h4>
+                        <p class="text-gold font-bold text-sm tracking-widest mb-1">BLIND ESPORTS</p>
+                        <p class="text-gray-500 text-sm">BMPS 2023 Champion. Skyesports Championship 5.0 Champion.</p>
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute -left-[41px] top-1 h-5 w-5 rounded-full bg-void border-2 border-gray-600 group-hover:border-gold transition-colors"></span>
+                        <h4 class="font-oswald text-2xl text-white uppercase">2022 – 2023</h4>
+                        <p class="text-gold font-bold text-sm tracking-widest mb-1">GLOBAL ESPORTS</p>
+                        <p class="text-gray-500 text-sm">BGMI Masters Series 2022 Champion.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-void">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-oswald text-4xl text-white font-bold uppercase mb-12 flex items-center">
+                Major Trophies <span class="ml-4 h-px flex-1 bg-white/10"></span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="group relative overflow-hidden bg-carbon flex flex-col items-center justify-center border border-white/10 p-6 text-center hover:border-gold transition-colors">
+                    <i class="fas fa-trophy text-3xl text-gold mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="font-oswald text-lg text-white uppercase leading-none mb-2">BGMS Season 3</h4>
+                    <p class="text-xs text-gray-500 font-bold mb-1">2024</p>
+                    <span class="text-gold text-sm font-bold">CHAMPION</span>
+                </div>
+
+                <div class="group relative overflow-hidden bg-carbon flex flex-col items-center justify-center border border-white/10 p-6 text-center hover:border-gold transition-colors">
+                    <i class="fas fa-trophy text-3xl text-gold mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="font-oswald text-lg text-white uppercase leading-none mb-2">BMPS</h4>
+                    <p class="text-xs text-gray-500 font-bold mb-1">2023</p>
+                    <span class="text-gold text-sm font-bold">CHAMPION</span>
+                </div>
+
+                <div class="group relative overflow-hidden bg-carbon flex flex-col items-center justify-center border border-white/10 p-6 text-center hover:border-gold transition-colors">
+                    <i class="fas fa-trophy text-3xl text-gold mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="font-oswald text-lg text-white uppercase leading-none mb-2">Skyesports 5.0</h4>
+                    <p class="text-xs text-gray-500 font-bold mb-1">2023</p>
+                    <span class="text-gold text-sm font-bold">CHAMPION</span>
+                </div>
+
+                <div class="group relative overflow-hidden bg-carbon flex flex-col items-center justify-center border border-white/10 p-6 text-center hover:border-gold transition-colors">
+                    <i class="fas fa-trophy text-3xl text-gold mb-4 group-hover:scale-110 transition-transform"></i>
+                    <h4 class="font-oswald text-lg text-white uppercase leading-none mb-2">BGMS</h4>
+                    <p class="text-xs text-gray-500 font-bold mb-1">2022</p>
+                    <span class="text-gold text-sm font-bold">CHAMPION</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-carbon border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-oswald text-4xl text-white font-bold uppercase mb-12 text-center">
+                Technical <span class="text-transparent bg-clip-text bg-gold-gradient">Setup</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-void p-8 border border-white/5 text-center hover:border-gold/30 transition-all hover-lift">
+                    <i class="fas fa-mobile text-4xl text-gray-700 mb-4"></i>
+                    <h3 class="font-oswald text-xl text-white uppercase">Device</h3>
+                    <p class="text-gold font-bold">Flagship Smartphone</p>
+                </div>
+
+                <div class="bg-void p-8 border border-white/5 text-center hover:border-gold/30 transition-all hover-lift">
+                    <i class="fas fa-gamepad text-4xl text-gray-700 mb-4"></i>
+                    <h3 class="font-oswald text-xl text-white uppercase">Layout</h3>
+                    <p class="text-gold font-bold">Competitive Layout</p>
+                </div>
+
+                <div class="bg-void p-8 border border-white/5 text-center hover:border-gold/30 transition-all hover-lift">
+                    <i class="fas fa-headset text-4xl text-gray-700 mb-4"></i>
+                    <h3 class="font-oswald text-xl text-white uppercase">Audio</h3>
+                    <p class="text-gold font-bold">Pro Gaming Headset</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="mb-8 md:mb-0 text-center md:text-left">
+                    <span class="font-oswald font-bold text-4xl tracking-widest text-white">
+                        GOD<span class="text-gold">LIKE</span>
+                    </span>
+                    <p class="text-gray-600 text-sm mt-2 font-bold tracking-widest uppercase">Dominate Reality</p>
+                </div>
+                
+                <div class="flex gap-6">
+                    <a href="#" class="w-10 h-10 rounded-full bg-carbon flex items-center justify-center text-gray-400 hover:text-black hover:bg-gold transition-all"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-carbon flex items-center justify-center text-gray-400 hover:text-black hover:bg-gold transition-all"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-carbon flex items-center justify-center text-gray-400 hover:text-black hover:bg-gold transition-all"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+                <p>&copy; 2026 GODLIKE ESPORTS. FAN PROJECT.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">PRIVACY</a>
+                    <a href="#" class="hover:text-white transition-colors">TERMS</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const stats = document.querySelectorAll('.stat-bar-fill');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.style.width;
+                        entry.target.style.width = '0';
+                        setTimeout(() => {
+                            entry.target.style.width = width;
+                        }, 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            stats.forEach(stat => observer.observe(stat));
+        });
+    </script>
+</body>
+</html>

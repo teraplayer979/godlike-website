@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social War Room | GodLike Esports</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#050505',
+                        carbon: '#1A1A1A',
+                        gold: '#FFD700',
+                        goldDim: '#B8860B',
+                    },
+                    fontFamily: {
+                        oswald: ['Oswald', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                    },
+                    backgroundImage: {
+                        'gold-gradient': 'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #F0F0F0;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FFD700; }
+        
+        /* Tech Effects */
+        .clip-tech { clip-path: polygon(0 0, 100% 0, 100% 85%, 90% 100%, 0 100%); }
+        .text-glow { text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); }
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            position: absolute; inset: 0; pointer-events: none; z-index: 2;
+        }
+    </style>
+</head>
+<body class="font-rajdhani selection:bg-gold selection:text-black">
+
+    <nav class="fixed w-full z-50 bg-void/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="font-oswald font-bold text-3xl tracking-widest text-gold text-glow hover:text-white transition-colors">
+                    GODLIKE
+                </a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-400 hover:text-white hover:text-glow transition-all font-bold tracking-widest text-sm uppercase">Home</a>
+                    <a href="social.html" class="text-gold border-b border-gold pb-1 font-bold tracking-widest text-sm uppercase">Social</a>
+                </div>
+
+                <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-gold text-2xl focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-carbon border-b border-gold/20">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="index.html" class="block text-gray-400 font-bold uppercase">Home</a>
+                <a href="social.html" class="block text-gold font-bold uppercase">Social</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative h-[60vh] flex items-center justify-center overflow-hidden pt-20 border-b border-white/5">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-t from-void via-void/50 to-transparent z-10"></div>
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="War Room" class="w-full h-full object-cover opacity-30 grayscale">
+            <div class="scanlines"></div>
+        </div>
+
+        <div class="relative z-20 text-center px-6">
+            <h1 class="font-oswald text-5xl md:text-7xl font-bold uppercase leading-none text-white mb-4">
+                SOCIAL <span class="text-transparent bg-clip-text bg-gold-gradient text-glow"> ROOM</span>
+            </h1>
+            <p class="font-oswald text-lg md:text-xl font-light text-gray-500 uppercase tracking-widest max-w-2xl mx-auto">
+                Real-time content ecosystem from the GodLike Roster
+            </p>
+        </div>
+    </header>
+
+    <section class="py-20 bg-void relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-oswald text-4xl text-white font-bold uppercase mb-12 flex items-center gap-4">
+                <span class="w-2 h-8 bg-gold"></span>
+                Latest Missions
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/cTACUQDLmdg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/qWfjtJ6GnPo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/djLX3_dkCoA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/9CEQ3pJd9b0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/2H41r4Jo0DE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/rGR06zTbUQw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/2P24-ufzkUw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/MaULreWw3NQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="aspect-video bg-carbon border border-white/10 hover:border-gold transition-colors duration-300">
+                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/EMiz7beTO0w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-carbon border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-oswald text-4xl text-white font-bold uppercase mb-12 flex items-center gap-4">
+                <span class="w-2 h-8 bg-pink-600"></span>
+                Field Moments
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+                <div class="flex justify-center bg-void p-1 rounded border border-white/10 hover:border-pink-600 transition-colors duration-300">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DUnEwHTjEoZ/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:none; display:block; margin:0px; padding:0px; width:100%;"></blockquote>
+                </div>
+
+                <div class="flex justify-center bg-void p-1 rounded border border-white/10 hover:border-pink-600 transition-colors duration-300">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DPY_Nopkkaw/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:none; display:block; margin:0px; padding:0px; width:100%;"></blockquote>
+                </div>
+
+                <div class="flex justify-center bg-void p-1 rounded border border-white/10 hover:border-pink-600 transition-colors duration-300">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DOQTs3eEmZo/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:none; display:block; margin:0px; padding:0px; width:100%;"></blockquote>
+                </div>
+
+                <div class="flex justify-center bg-void p-1 rounded border border-white/10 hover:border-pink-600 transition-colors duration-300">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DIv6dF-oloN/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:none; display:block; margin:0px; padding:0px; width:100%;"></blockquote>
+                </div>
+
+                <div class="flex justify-center bg-void p-1 rounded border border-white/10 hover:border-pink-600 transition-colors duration-300">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DI-7tG_xWQ3/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:none; display:block; margin:0px; padding:0px; width:100%;"></blockquote>
+                </div>
+
+                <div class="flex justify-center bg-void p-1 rounded border border-white/10 hover:border-pink-600 transition-colors duration-300">
+                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DDuJ670ISrw/" data-instgrm-version="14" style="background:#000; border:0; border-radius:3px; box-shadow:none; display:block; margin:0px; padding:0px; width:100%;"></blockquote>
+                </div>
+            </div>
+        </div>
+        <script async src="//www.instagram.com/embed.js"></script>
+    </section>
+
+    <footer class="bg-black border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col items-center text-center mb-10">
+                <span class="font-oswald font-bold text-4xl tracking-widest text-gold text-glow">
+                    GODLIKE
+                </span>
+                <p class="text-gray-600 text-sm mt-2 font-bold tracking-widest uppercase">Dominate Reality</p>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 text-center text-xs text-gray-600">
+                <p>&copy; 2026 GODLIKE ESPORTS. UNOFFICIAL FAN CONCEPT.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

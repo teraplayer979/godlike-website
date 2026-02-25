@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | GodLike Esports</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#050505',
+                        charcoal: '#121212',
+                        gold: {
+                            DEFAULT: '#FFCC00',
+                            glow: 'rgba(255, 204, 0, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle ambient glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(circle at top, rgba(255, 204, 0, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFCC00;
+        }
+        ::selection {
+            background: #FFCC00;
+            color: #050505;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* List styling */
+        .terms-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .terms-list li::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            top: 0.15rem;
+            color: #FFCC00;
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div class="ambient-glow"></div>
+
+    <nav class="fixed w-full top-0 z-50 bg-obsidian/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-display font-bold text-xl tracking-widest text-white hover:text-gold transition-colors">
+                GODLIKE
+            </a>
+            <div class="hidden md:flex items-center gap-8 font-display text-xs tracking-widest font-semibold text-white/70">
+                <a href="index.html" class="hover:text-gold transition-colors">HOME</a>
+                <a href="#" class="text-gold">TERMS</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-24">
+        
+        <header class="text-center px-6 mb-20 reveal">
+            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight uppercase">
+                Terms & Conditions
+            </h1>
+            <div class="w-16 h-1 bg-gold mx-auto mt-8 shadow-[0_0_15px_rgba(255,204,0,0.4)]"></div>
+            <p class="font-display text-xs md:text-sm tracking-[0.2em] text-white/50 mt-8 uppercase">
+                Effective Date: January 1, 2026
+            </p>
+        </header>
+
+        <div class="max-w-[800px] mx-auto px-6">
+            
+            <div class="reveal">
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    Welcome to <strong class="text-white font-medium">GodLike Esports</strong> (“we”, “our”, “us”).
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed">
+                    By accessing or using this website, you agree to comply with and be bound by the following Terms & Conditions. If you do not agree, please do not use this website.
+                </p>
+            </div>
+
+            <hr class="border-t border-gold/20 my-16 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">01 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Use of Website</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-6">
+                    This website is intended for informational and entertainment purposes only.
+                </p>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    You agree to use this website lawfully and not to:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed">
+                    <li>Violate any applicable laws or regulations</li>
+                    <li>Attempt to gain unauthorized access to the website</li>
+                    <li>Disrupt website functionality</li>
+                    <li>Copy, distribute, or misuse website content</li>
+                </ul>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">02 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Intellectual Property</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    All content on this website, including but not limited to:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed mb-4">
+                    <li>Logos</li>
+                    <li>Brand name</li>
+                    <li>Graphics</li>
+                    <li>Images</li>
+                    <li>Text</li>
+                    <li>Design elements</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed mb-6">
+                    are the property of GodLike Esports, unless otherwise stated.
+                </p>
+                <p class="text-white/80 font-light leading-relaxed">
+                    Unauthorized reproduction, distribution, or modification of any content is strictly prohibited without written permission.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">03 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Third-Party Links</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    This website may contain links to third-party platforms such as:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed mb-4">
+                    <li>YouTube</li>
+                    <li>Instagram</li>
+                    <li>X (Twitter)</li>
+                    <li>Discord</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed">
+                    We are not responsible for the content, policies, or practices of third-party websites.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">04 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">No Warranties</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-6">
+                    This website is provided “as is” and “as available.”
+                </p>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    We do not guarantee:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed mb-6">
+                    <li>Continuous availability</li>
+                    <li>Accuracy of information</li>
+                    <li>Error-free functionality</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed">
+                    Use of the website is at your own risk.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">05 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Limitation of Liability</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    GodLike Esports shall not be held liable for any:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed mb-4">
+                    <li>Direct or indirect damages</li>
+                    <li>Data loss</li>
+                    <li>Service interruptions</li>
+                    <li>Issues arising from third-party platforms</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed">
+                    resulting from the use of this website.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">06 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">User Conduct</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    Users must not:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed mb-4">
+                    <li>Post or share harmful content</li>
+                    <li>Attempt to exploit vulnerabilities</li>
+                    <li>Impersonate the brand or its members</li>
+                    <li>Engage in abusive or unlawful behavior</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed">
+                    Violation may result in restricted access.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">07 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Modifications to the Website</h2>
+                <p class="text-white/80 font-light leading-relaxed mb-4">
+                    We reserve the right to:
+                </p>
+                <ul class="terms-list text-white/80 font-light leading-relaxed mb-4">
+                    <li>Update website content</li>
+                    <li>Modify design or structure</li>
+                    <li>Remove sections</li>
+                    <li>Update these Terms at any time</li>
+                </ul>
+                <p class="text-white/80 font-light leading-relaxed">
+                    Continued use of the website after changes constitutes acceptance of revised Terms.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">08 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Governing Law</h2>
+                <p class="text-white/80 font-light leading-relaxed">
+                    These Terms & Conditions are governed by and interpreted in accordance with the laws of India.
+                </p>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">09 //</span>
+                <h2 class="font-display text-2xl text-white mb-6 uppercase">Contact</h2>
+                <p class="text-white/80 font-light leading-relaxed">
+                    For questions regarding these Terms & Conditions, please reach out through our official social media channels.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 bg-obsidian py-10 relative z-10">
+        <div class="max-w-[1200px] mx-auto px-6 text-center">
+            <h2 class="font-display text-xl font-bold text-white tracking-widest mb-4">GODLIKE ESPORTS</h2>
+            <p class="font-display text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                &copy; 2026 GodLike Esports. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px 0px -10% 0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Stop observing once animated
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

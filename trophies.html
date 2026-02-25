@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GodLike Esports | The Championship Vault</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & SYSTEM SETUP
+           ========================================================================== */
+        :root {
+            /* Color Palette */
+            --obsidian: #030303;
+            --charcoal: #0a0a0a;
+            --carbon: #121212;
+            --gold-primary: #FFCC00;
+            --gold-light: #FFE066;
+            --gold-dark: #B38F00;
+            --text-main: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.65);
+            --text-faint: rgba(255, 255, 255, 0.3);
+            
+            /* Glass & Borders */
+            --glass-bg: rgba(15, 15, 15, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.04);
+            --glass-highlight: rgba(255, 204, 0, 0.15);
+            
+            /* Animations & Easings */
+            --ease-cinematic: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-slow: 1.2s var(--ease-cinematic);
+            --transition-med: 0.6s var(--ease-cinematic);
+            --transition-fast: 0.3s ease-out;
+
+            /* Cursor */
+            --cursor-size: 8px;
+            --cursor-ring-size: 40px;
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor */
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--obsidian);
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: var(--obsidian);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--obsidian);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-dark);
+        }
+
+        ::selection {
+            background: var(--gold-primary);
+            color: var(--obsidian);
+        }
+
+        .font-display {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* ==========================================================================
+           2. CUSTOM CURSOR & AMBIENCE
+           ========================================================================== */
+        #cursor-dot, #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #cursor-dot {
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            background-color: var(--gold-primary);
+            box-shadow: 0 0 10px var(--gold-primary);
+            transition: transform 0.1s;
+        }
+
+        #cursor-ring {
+            width: var(--cursor-ring-size);
+            height: var(--cursor-ring-size);
+            border: 1px solid rgba(255, 204, 0, 0.5);
+            transition: transform 0.3s var(--ease-cinematic), width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        /* Hover states for cursor */
+        body.hovering #cursor-dot {
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+        body.hovering #cursor-ring {
+            width: 60px;
+            height: 60px;
+            border-color: var(--gold-primary);
+            background: rgba(255, 204, 0, 0.05);
+        }
+
+        /* Gold Dust Canvas */
+        #dust-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Ambient Noise Overlay */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Ambient Lighting */
+        .ambient-light {
+            position: fixed;
+            top: -20vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 80vh;
+            background: radial-gradient(ellipse at center, rgba(255, 204, 0, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ==========================================================================
+           3. HERO SECTION
+           ========================================================================== */
+        .hero-vault {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .hero-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.6em;
+            color: var(--gold-primary);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s var(--ease-cinematic) 0.5s forwards;
+        }
+
+        .hero-title-container {
+            position: relative;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 8rem);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        /* The Gold Reveal Overlay */
+        .hero-title::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0%;
+            height: 100%;
+            color: var(--text-main);
+            -webkit-text-stroke: 0px;
+            background: linear-gradient(90deg, #FFFFFF 0%, var(--gold-primary) 50%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            overflow: hidden;
+            white-space: nowrap;
+            animation: swipeRight 2s var(--ease-cinematic) 1s forwards;
+        }
+
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            text-align: center;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s var(--ease-cinematic) 1.5s forwards;
+        }
+
+        /* Scroll Down Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 5vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            animation: fadeIn 1s var(--ease-cinematic) 2.5s forwards;
+        }
+
+        .scroll-text {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold-primary), transparent);
+            animation: pulseLine 2s infinite;
+        }
+
+        /* ==========================================================================
+           4. CHAMPIONSHIP VERTICAL SHOWCASE
+           ========================================================================== */
+        .vault-main {
+            position: relative;
+            z-index: 10;
+            padding: 10vh 0 20vh;
+        }
+
+        .trophy-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 90vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 5vh 5%;
+            position: relative;
+        }
+
+        /* Alternating Layout */
+        .trophy-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        /* Background Huge Watermark */
+        .trophy-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25vw;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.015);
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* --- Text Content Side --- */
+        .trophy-content {
+            flex: 0 0 40%;
+            padding: 2rem;
+            z-index: 2;
+        }
+
+        .tc-year {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gold-primary);
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .tc-year::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            width: 30px;
+            height: 1px;
+            background: var(--gold-primary);
+        }
+
+        .tc-title {
+            font-size: clamp(2.5rem, 4vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .tc-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            max-width: 90%;
+        }
+
+        .tc-stats {
+            display: flex;
+            gap: 3rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+        }
+
+        .stat-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* --- Visual Trophy Card Side --- */
+        .trophy-visual {
+            flex: 0 0 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 2000px; /* Deep perspective for 3D tilt */
+            z-index: 2;
+        }
+
+        /* The Glass Card */
+        .glass-card {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            aspect-ratio: 3 / 4;
+            background: var(--glass-bg);
+            border-radius: 30px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            transform-style: preserve-3d;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: border-color var(--transition-med);
+        }
+
+        /* Glowing Animated Border Effect */
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 32px;
+            background: conic-gradient(from var(--border-angle), transparent 20%, var(--gold-primary) 50%, transparent 80%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity var(--transition-med);
+            animation: spinBorder 4s linear infinite;
+        }
+
+        .trophy-visual:hover .glass-card {
+            border-color: transparent;
+        }
+        .trophy-visual:hover .glass-card::after {
+            opacity: 1;
+        }
+
+        /* Interactive Spotlight inside card */
+        .card-spotlight {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 30px;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 204, 0, 0.08),
+                transparent 40%
+            );
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .trophy-visual:hover .card-spotlight {
+            opacity: 1;
+        }
+
+        /* The 3D Object Container */
+        .card-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            z-index: 2;
+        }
+
+        /* The Trophy Image */
+        .card-content img {
+            width: auto;
+            height: 65%; /* Massive scale */
+            object-fit: contain;
+            transform: translateZ(80px); /* Pops out of the card */
+            filter: drop-shadow(0 40px 30px rgba(0, 0, 0, 0.9));
+            transition: transform var(--transition-slow), filter var(--transition-slow);
+        }
+
+        /* Base Glow under the trophy */
+        .trophy-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.1;
+            transform: translate(-50%, -50%) translateZ(20px);
+            transition: opacity var(--transition-slow), filter var(--transition-slow);
+        }
+
+        /* Hover Enhancements */
+        .trophy-visual:hover .card-content img {
+            transform: translateZ(120px) scale(1.05) translateY(-10px);
+            filter: drop-shadow(0 60px 40px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 30px rgba(255, 204, 0, 0.3));
+        }
+
+        .trophy-visual:hover .trophy-glow {
+            opacity: 0.3;
+            filter: blur(100px);
+        }
+
+        /* Card Label (Bottom Left) */
+        .card-label {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            transform: translateZ(40px);
+            background: rgba(0,0,0,0.5);
+            padding: 0.8rem 1.5rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-label-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gold-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        .card-label-text {
+            font-size: 0.75rem;
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: 0.1em;
+            color: #fff;
+        }
+
+        /* ==========================================================================
+           5. ANIMATIONS & REVEALS
+           ========================================================================== */
+        @property --border-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes spinBorder {
+            0% { --border-angle: 0deg; }
+            100% { --border-angle: 360deg; }
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes swipeRight {
+            to { width: 100%; }
+        }
+
+        @keyframes pulseLine {
+            0% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+            50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+            50.1% { transform: scaleY(1); transform-origin: bottom; opacity: 1;}
+            100% { transform: scaleY(0); transform-origin: bottom; opacity: 0;}
+        }
+
+        /* Scroll Reveal Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1s var(--ease-cinematic), transform 1s var(--ease-cinematic);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+
+        /* ==========================================================================
+           6. STRICT MOBILE OPTIMIZATION OVERRIDES
+           ========================================================================== */
+        @media (max-width: 768px) {
+            /* Fix horizontal overflow globally */
+            html, body {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
+            }
+
+            /* Remove fixed viewport heights blocking scroll/content */
+            .hero-vault {
+                height: auto !important;
+                min-height: 100dvh !important;
+                padding: 15vh 5% 10vh !important;
+                justify-content: center !important;
+            }
+
+            /* Prevent giant font from breaking layout */
+            .hero-title {
+                font-size: 13vw !important;
+                white-space: normal !important;
+            }
+
+            /* Adjust Vertical Padding and Flow */
+            .trophy-section, .trophy-section:nth-child(even) {
+                flex-direction: column !important;
+                text-align: center !important;
+                min-height: auto !important;
+                padding: 8vh 5% !important;
+                gap: 3rem !important;
+            }
+
+            /* Fix element spacing for mobile */
+            .tc-year::before {
+                display: none !important;
+            }
+
+            .tc-title {
+                font-size: 2rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .tc-desc {
+                max-width: 100% !important;
+                margin: 0 auto 2rem !important;
+                font-size: 0.95rem !important;
+                padding: 0 10px !important;
+            }
+
+            .tc-stats {
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 1.5rem !important;
+            }
+            
+            .stat-box {
+                align-items: center !important;
+            }
+
+            /* Fix cramped cards and resize container */
+            .trophy-visual {
+                width: 100% !important;
+                max-width: 100% !important;
+                perspective: none !important; /* Disable perspective on parent */
+            }
+
+            .glass-card {
+                width: 100% !important;
+                max-width: 380px !important; 
+                height: auto !important;
+                min-height: 400px !important;
+                aspect-ratio: auto !important;
+                margin: 0 auto !important;
+                transform: none !important; /* Disable JS 3D tilt */
+            }
+
+            .card-content {
+                transform: none !important; /* Flatten 3D depth */
+            }
+
+            /* Fix image sizes and disable JS 3D pop effect */
+            .card-content img {
+                height: auto !important;
+                max-height: 250px !important;
+                width: auto !important;
+                max-width: 85% !important;
+                transform: none !important; /* Override JS inline styles permanently */
+                filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.7)) !important;
+            }
+
+            /* Disable heavy hover/lighting on touch to save performance */
+            .trophy-visual:hover .glass-card {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+                border-color: var(--glass-border) !important;
+            }
+            
+            .glass-card::after,
+            .card-spotlight {
+                display: none !important; /* Kill animated border & spotlight on mobile */
+            }
+
+            .trophy-visual:hover .card-content img {
+                transform: none !important;
+                filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.7)) !important;
+            }
+            
+            .trophy-visual:hover .trophy-glow {
+                opacity: 0.1 !important;
+                filter: blur(70px) !important;
+            }
+
+            /* Adjust watermark */
+            .trophy-watermark {
+                font-size: 22vw !important;
+                top: 15% !important;
+                opacity: 0.03 !important;
+            }
+
+            /* Fix Z-index issues blocking clicks or content */
+            #dust-canvas, .noise-overlay, .ambient-light {
+                z-index: 0 !important;
+            }
+
+            /* Completely hide custom cursor on mobile */
+            #cursor-dot, #cursor-ring {
+                display: none !important;
+            }
+            * {
+                cursor: auto !important;
+            }
+        }
+/* ===== HERO TITLE MOBILE FIX ===== */
+@media (max-width: 768px) {
+
+  .hero-title {
+      font-size: 11vw !important;
+      line-height: 1.05 !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+  }
+
+  /* IMPORTANT: prevent overlay text overflow */
+  .hero-title::before {
+      white-space: normal !important;
+  }
+
+}
+.hero-title-container {
+    width: 100%;
+    padding: 0 5%;
+}
+    </style>
+</head>
+<body>
+
+    <canvas id="dust-canvas"></canvas>
+    <div class="noise-overlay"></div>
+    <div class="ambient-light"></div>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <header class="hero-vault">
+        <span class="hero-label font-display">GodLike Esports</span>
+        <div class="hero-title-container">
+            <h1 class="hero-title font-display" data-text="CHAMPIONSHIP">CHAMPIONSHIP</h1>
+            <h1 class="hero-title font-display" data-text="VAULT" style="animation-delay: 1.2s;">VAULT</h1>
+        </div>
+        <p class="hero-subtitle">
+            A cinematic exhibition of our legacy. Explore the history, the triumphs, and the monumental hardware that defines the GodLike era.
+        </p>
+
+        <div class="scroll-indicator">
+            <span class="scroll-text">Enter Vault</span>
+            <div class="scroll-line"></div>
+        </div>
+    </header>
+
+    <main class="vault-main" id="vault">
+
+        <section class="trophy-section">
+            <div class="trophy-watermark">BGIS 23</div>
+            
+            <div class="trophy-content reveal">
+                <span class="tc-year">2023</span>
+                <h2 class="tc-title font-display">BGMI Masters<br>Series Vol. 2</h2>
+                <p class="tc-desc">
+                    A monumental victory in one of the most prestigious tournaments in Indian esports history. GodLike showcased absolute dominance, strategic brilliance, and unmatched firepower to secure the championship.
+                </p>
+                <div class="tc-stats">
+                    <div class="stat-box">
+                        <span class="stat-label">Result</span>
+                        <span class="stat-value" style="color: var(--gold-primary);">Champions</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Tier</span>
+                        <span class="stat-value">S-Tier</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trophy-visual reveal delay-1 interactive-card">
+                <div class="glass-card">
+                    <div class="card-spotlight"></div>
+                    <div class="card-content">
+                        <div class="trophy-glow"></div>
+                        <img src="trophy1.png" style="object-fit: cover; border-radius: 20px; mask-image: linear-gradient(to bottom, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);" alt="BGIS Trophy">
+                    </div>
+                    <div class="card-label">
+                        <div class="card-label-dot"></div>
+                        <span class="card-label-text">ACQUIRED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trophy-section">
+            <div class="trophy-watermark">PMGC</div>
+            
+            <div class="trophy-content reveal">
+                <span class="tc-year">2021</span>
+                <h2 class="tc-title font-display">PMGC<br>South Asia</h2>
+                <p class="tc-desc">
+                    Representing the region on the global stage. The journey through the PUBG Mobile Global Championship tested our limits, solidifying GodLike's position as an international powerhouse.
+                </p>
+                <div class="tc-stats">
+                    <div class="stat-box">
+                        <span class="stat-label">Result</span>
+                        <span class="stat-value" style="color: var(--gold-primary);">Champions</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Scope</span>
+                        <span class="stat-value">Global</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trophy-visual reveal delay-1 interactive-card">
+                <div class="glass-card">
+                    <div class="card-spotlight"></div>
+                    <div class="card-content">
+                        <div class="trophy-glow"></div>
+                        <img src="trophy2.png" style="object-fit: cover; border-radius: 20px; mask-image: linear-gradient(to bottom, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);" alt="PMGC Trophy">
+                    </div>
+                    <div class="card-label">
+                        <div class="card-label-dot"></div>
+                        <span class="card-label-text">ACQUIRED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trophy-section">
+            <div class="trophy-watermark">SKYESPORTS</div>
+            
+            <div class="trophy-content reveal">
+                <span class="tc-year">2022</span>
+                <h2 class="tc-title font-display">Skyesports<br>Championship</h2>
+                <p class="tc-desc">
+                    A testament to consistency. Back-to-back aggressive plays and flawless rotations led to lifting the massive Skyesports cup in front of thousands of roaring fans.
+                </p>
+                <div class="tc-stats">
+                    <div class="stat-box">
+                        <span class="stat-label">Result</span>
+                        <span class="stat-value" style="color: var(--gold-primary);">Champions</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">MVP</span>
+                        <span class="stat-value">Jonathan</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trophy-visual reveal delay-1 interactive-card">
+                <div class="glass-card">
+                    <div class="card-spotlight"></div>
+                    <div class="card-content">
+                        <div class="trophy-glow"></div>
+                        <img src="trophy3.png" style="object-fit: cover; border-radius: 20px; mask-image: linear-gradient(to bottom, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);" alt="Skyesports Trophy">
+                    </div>
+                    <div class="card-label">
+                        <div class="card-label-dot"></div>
+                        <span class="card-label-text">ACQUIRED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trophy-section">
+            <div class="trophy-watermark">LOCO</div>
+            
+            <div class="trophy-content reveal">
+                <span class="tc-year">2021</span>
+                <h2 class="tc-title font-display">Loco<br>India Cup</h2>
+                <p class="tc-desc">
+                    The genesis of an era. Securing the Loco India Cup was a massive milestone that proved the synergy and raw mechanical skill of the GodLike roster.
+                </p>
+                <div class="tc-stats">
+                    <div class="stat-box">
+                        <span class="stat-label">Result</span>
+                        <span class="stat-value" style="color: var(--gold-primary);">#1 Winners</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Tier</span>
+                        <span class="stat-value">A-Tier</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trophy-visual reveal delay-1 interactive-card">
+                <div class="glass-card">
+                    <div class="card-spotlight"></div>
+                    <div class="card-content">
+                        <div class="trophy-glow"></div>
+                        <img src="trophy1.png" style="object-fit: cover; border-radius: 20px; mask-image: linear-gradient(to bottom, black 80%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);" alt="Loco Trophy">
+                    </div>
+                    <div class="card-label">
+                        <div class="card-label-dot"></div>
+                        <span class="card-label-text">ACQUIRED</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+<section class="trophy-section" style="justify-content: center; min-height: 60vh; text-align: center;">
+    
+    <div class="trophy-content reveal active" style="flex: 0 0 100%;">
+        
+        <span class="tc-year" style="letter-spacing: 0.4em;">AND BEYOND</span>
+        
+        <h2 class="tc-title font-display" style="margin-top: 1rem;">
+            The Legacy<br>Continues
+        </h2>
+
+        <p class="tc-desc" style="margin: 2rem auto 0; max-width: 700px;">
+            These are only chapters from a much larger story. 
+            Countless victories, countless battles, and many more trophies remain etched in the GodLike era.
+        </p>
+
+    </div>
+
+</section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Custom Cursor Logic ---
+            const cursorDot = document.getElementById('cursor-dot');
+            const cursorRing = document.getElementById('cursor-ring');
+            
+            // Check if device supports hover (desktop)
+            if (window.matchMedia("(pointer: fine)").matches) {
+                let mouseX = 0, mouseY = 0;
+                let ringX = 0, ringY = 0;
+
+                window.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    // Instant follow for dot
+                    cursorDot.style.left = `${mouseX}px`;
+                    cursorDot.style.top = `${mouseY}px`;
+                });
+
+                // Smooth follow for ring using requestAnimationFrame
+                const animateCursor = () => {
+                    // Easing factor (0.15 is smooth)
+                    ringX += (mouseX - ringX) * 0.15;
+                    ringY += (mouseY - ringY) * 0.15;
+                    
+                    cursorRing.style.left = `${ringX}px`;
+                    cursorRing.style.top = `${ringY}px`;
+                    
+                    requestAnimationFrame(animateCursor);
+                };
+                animateCursor();
+
+                // Add hover states for links and interactive cards
+                const hoverElements = document.querySelectorAll('a, button, .interactive-card');
+                hoverElements.forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+                });
+            }
+
+            // --- 2. Cinematic Scroll Reveal (Intersection Observer) ---
+            const revealOptions = {
+                root: null,
+                rootMargin: '0px 0px -15% 0px',
+                threshold: 0.1
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: unobserve after revealing
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // --- 3. 3D Tilt & Dynamic Spotlight Logic ---
+            const cards = document.querySelectorAll('.interactive-card');
+            
+            cards.forEach(cardWrapper => {
+                const card = cardWrapper.querySelector('.glass-card');
+                
+                cardWrapper.addEventListener('mousemove', (e) => {
+                    // Get dimensions
+                    const rect = cardWrapper.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    // Update Spotlight Position CSS Variables
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+
+                    // Calculate 3D Rotation (Max 12 degrees)
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -12; 
+                    const rotateY = ((x - centerX) / centerX) * 12;
+
+                    // Apply Transform
+                    card.style.transition = 'none'; // Remove transition for smooth tracking
+                    card.style.transform = `perspective(2000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+
+                cardWrapper.addEventListener('mouseleave', () => {
+                    // Reset to center smoothly
+                    card.style.transition = 'transform 0.8s cubic-bezier(0.19, 1, 0.22, 1)';
+                    card.style.transform = `perspective(2000px) rotateX(0deg) rotateY(0deg)`;
+                });
+
+                cardWrapper.addEventListener('mouseenter', () => {
+                    // Fast transition when entering to catch up to mouse
+                    card.style.transition = 'transform 0.2s ease-out';
+                });
+            });
+
+            // --- 4. Gold Dust Particle System (Canvas) ---
+            const canvas = document.getElementById('dust-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width, height;
+            let particles = [];
+            const particleCount = 80; // Optimized count
+
+            function initCanvas() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 2 + 0.5; // Small dust specs
+                    this.speedX = (Math.random() - 0.5) * 0.3; // Very slow horizontal drift
+                    this.speedY = (Math.random() - 0.5) * 0.3 - 0.2; // Slowly floating up
+                    this.opacity = Math.random() * 0.5;
+                    this.fadeSpeed = Math.random() * 0.005 + 0.001;
+                    this.fadingOut = Math.random() > 0.5;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    // Twinkling effect
+                    if (this.fadingOut) {
+                        this.opacity -= this.fadeSpeed;
+                        if (this.opacity <= 0) this.fadingOut = false;
+                    } else {
+                        this.opacity += this.fadeSpeed;
+                        if (this.opacity >= 0.6) this.fadingOut = true;
+                    }
+
+                    // Wrap around screen
+                    if (this.y < 0) this.y = height;
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    // GodLike Gold color for dust
+                    ctx.fillStyle = `rgba(255, 204, 0, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animateParticles);
+            }
+
+            // Setup and handle resize
+            initCanvas();
+            initParticles();
+            animateParticles();
+
+            window.addEventListener('resize', () => {
+                initCanvas();
+                // Don't re-init particles to keep them where they are, just let them wrap
+            });
+
+        });
+    </script>
+</body>
+</html>

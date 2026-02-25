@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About the Creator | GodLike Esports</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#050505',
+                        charcoal: '#121212',
+                        gold: {
+                            DEFAULT: '#FFCC00',
+                            glow: 'rgba(255, 204, 0, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syncopate', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle ambient glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(circle at top, rgba(255, 204, 0, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFCC00;
+        }
+        ::selection {
+            background: #FFCC00;
+            color: #050505;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: opacity, transform;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Card Hover Effects */
+        .contact-card {
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .contact-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
+            border-color: rgba(255, 204, 0, 0.5);
+        }
+        .contact-card:hover .icon-gold {
+            color: #FFCC00;
+        }
+
+        /* Custom Bullet List */
+        .custom-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .custom-list li::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            top: 0.15rem;
+            color: #FFCC00;
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div class="ambient-glow"></div>
+
+    <nav class="fixed w-full top-0 z-50 bg-obsidian/80 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+        <div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-display font-bold text-xl tracking-widest text-white hover:text-gold transition-colors">
+                GODLIKE
+            </a>
+            <div class="hidden md:flex items-center gap-8 font-display text-xs tracking-widest font-semibold text-white/70">
+                <a href="index.html" class="hover:text-gold transition-colors">HOME</a>
+                <a href="#" class="text-gold">CREATOR</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 pt-32 pb-24">
+        
+        <header class="text-center px-6 mb-20 reveal">
+            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight uppercase">
+                About the Creator
+            </h1>
+            <div class="w-16 h-1 bg-gold mx-auto mt-8 shadow-[0_0_15px_rgba(255,204,0,0.4)]"></div>
+            <p class="font-display text-xs md:text-sm tracking-[0.2em] text-white/50 mt-8 uppercase">
+                Founder • Designer • Developer
+            </p>
+        </header>
+
+        <div class="max-w-[800px] mx-auto px-6">
+            
+            <div class="reveal text-center md:text-left mb-16">
+                <h2 class="font-display text-3xl text-white mb-2 uppercase tracking-wide">Ansh Katiyar</h2>
+                <p class="font-display text-xs tracking-[0.2em] text-gold mb-8 uppercase">
+                    Founder • Designer • Developer
+                </p>
+                
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    This platform was independently envisioned and built by <strong class="text-white font-medium">Ansh Katiyar</strong> — a 20 years old creator driven by passion for esports and digital excellence.
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    What began as an idea gradually evolved into a carefully crafted digital experience — designed with precision, built with patience, and refined with intention.
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed mb-6">
+                    Every animation, every transition, and every section reflects a commitment to quality and continuous improvement. This is more than just a website — it represents dedication, learning, and creative ambition.
+                </p>
+                <p class="text-white/80 font-light text-lg leading-relaxed">
+                    As a self-taught developer, Ansh believes in growing through building.<br>
+                    No shortcuts. No templates. Just consistent effort and refinement.
+                </p>
+            </div>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">01 //</span>
+                <h3 class="font-display text-xl text-white mb-6 uppercase">This project stands for:</h3>
+                
+                <ul class="custom-list text-white/80 font-light text-lg leading-relaxed">
+                    <li>Passion for Competitive Esports</li>
+                    <li>Commitment to Clean & Premium Design</li>
+                    <li>Independent Creativity</li>
+                    <li>Continuous Self-Improvement</li>
+                </ul>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">02 //</span>
+                <h3 class="font-display text-xl text-white mb-6 uppercase">A Note to Visitors</h3>
+                
+                <div class="bg-charcoal border border-white/5 p-6 md:p-8 rounded-xl mb-8 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-gold"></div>
+                    <p class="text-white/80 font-light leading-relaxed mb-4">
+                        This website is built independently with dedication and learning in progress.
+                    </p>
+                    <p class="text-white/80 font-light leading-relaxed mb-4">
+                        If you notice any technical issues, design imperfections, or content inaccuracies, your understanding is sincerely appreciated.
+                    </p>
+                    <p class="text-white/80 font-light leading-relaxed">
+                        Constructive feedback is always welcome — growth is part of the journey.
+                    </p>
+                </div>
+
+                <div class="text-center md:text-left mt-10">
+                    <p class="text-white/50 font-light italic mb-1">Built with ambition.</p>
+                    <p class="text-white/50 font-light italic mb-1">Built with consistency.</p>
+                    <p class="text-white/50 font-light italic mb-6">Built with heart.</p>
+                    
+                    <p class="font-display text-xl font-bold tracking-widest text-gold mt-8">
+                        Dil Se GodLike. 💛
+                    </p>
+                </div>
+            </section>
+
+            <hr class="border-t border-gold/10 my-12 reveal">
+
+            <section class="mb-16 reveal">
+                <span class="block font-display text-gold text-xs tracking-[0.2em] mb-3">03 //</span>
+                <h3 class="font-display text-2xl text-white mb-8 uppercase text-center md:text-left">Connect with the Creator</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="https://www.instagram.com/_ansh._._.katiyar_?igsh=MW9mYW1rNzFmN2tvZg%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" class="contact-card bg-charcoal border border-white/10 rounded-xl p-6 flex items-center gap-5 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center transition-colors group-hover:bg-gold/10 shrink-0">
+                            <svg class="w-5 h-5 text-white/60 icon-gold transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                            </svg>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-xs font-display tracking-widest text-white/40 mb-1 uppercase">Instagram</p>
+                            <p class="text-white font-medium group-hover:text-gold transition-colors text-sm sm:text-base truncate">@ansh...katiyar</p>
+                        </div>
+                    </a>
+
+                    <a href="mailto:anshkatiyar6387@gmail.com" class="contact-card bg-charcoal border border-white/10 rounded-xl p-6 flex items-center gap-5 group cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center transition-colors group-hover:bg-gold/10 shrink-0">
+                            <svg class="w-5 h-5 text-white/60 icon-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-xs font-display tracking-widest text-white/40 mb-1 uppercase">Email</p>
+                            <p class="text-white font-medium group-hover:text-gold transition-colors text-sm sm:text-base truncate">anshkatiyar6387@gmail.com</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 bg-obsidian py-10 relative z-10">
+        <div class="max-w-[1200px] mx-auto px-6 text-center">
+            <h2 class="font-display text-xl font-bold text-white tracking-widest mb-4">GODLIKE ESPORTS</h2>
+            <p class="font-display text-[10px] tracking-[0.2em] text-white/40 uppercase">
+                &copy; 2026 GodLike Esports. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px 0px -10% 0px",
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Stop observing once animated
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
