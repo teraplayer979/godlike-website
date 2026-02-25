@@ -963,25 +963,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!preloader || !bgMusic) return;
 
-    let holdTimer;
+    const preloader = document.getElementById('preloader');
+const bgMusic = document.getElementById('bgMusic');
 
-    function startHold() {
-        holdTimer = setTimeout(() => {
-            bgMusic.play().catch(() => {});
-        }, 1000);
-    }
+let holdTimer;
+let musicStarted = false;
 
-    function cancelHold() {
-        clearTimeout(holdTimer);
-    }
+function startHold() {
+    if (musicStarted) return;
 
-    preloader.addEventListener('mousedown', startHold);
-    preloader.addEventListener('mouseup', cancelHold);
-    preloader.addEventListener('mouseleave', cancelHold);
+    holdTimer = setTimeout(() => {
+        bgMusic.muted = false;
+        bgMusic.volume = 0.5;
 
-    preloader.addEventListener('touchstart', startHold, {passive: true});
-    preloader.addEventListener('touchend', cancelHold);
-    // Auto hide preloader after 2.5 seconds
+        bgMusic.play()
+            .then(() => {
+                musicStarted = true;
+            })
+            .catch(() => {});
+    }, 800);
+}
+
+function cancelHold() {
+    clearTimeout(holdTimer);
+}
+
+preloader.addEventListener('pointerdown', startHold);
+preloader.addEventListener('pointerup', cancelHold);
+preloader.addEventListener('pointerleave', cancelHold);
 
 });
         
@@ -1067,7 +1076,7 @@ document.addEventListener("click", function(e) {
     }
 });
     </script>
-<audio id="bgMusic" src="song.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="song.mp3" preload="auto" loop playsinline muted></audio>
 <audio id="uiClick" preload="auto" playsinline>
   <source src="click.mp3" type="audio/mpeg">
 </audio>
