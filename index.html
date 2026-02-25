@@ -963,34 +963,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!preloader || !bgMusic) return;
 
-    const preloader = document.getElementById('preloader');
-const bgMusic = document.getElementById('bgMusic');
+    let holdTimer;
+    let musicStarted = false;
 
-let holdTimer;
-let musicStarted = false;
+    function startHold() {
+        if (musicStarted) return;
 
-function startHold() {
-    if (musicStarted) return;
+        holdTimer = setTimeout(() => {
+            bgMusic.muted = false;
+            bgMusic.volume = 0.5;
 
-    holdTimer = setTimeout(() => {
-        bgMusic.muted = false;
-        bgMusic.volume = 0.5;
+            bgMusic.play()
+                .then(() => {
+                    musicStarted = true;
+                })
+                .catch(() => {});
+        }, 800);
+    }
 
-        bgMusic.play()
-            .then(() => {
-                musicStarted = true;
-            })
-            .catch(() => {});
-    }, 800);
-}
+    function cancelHold() {
+        clearTimeout(holdTimer);
+    }
 
-function cancelHold() {
-    clearTimeout(holdTimer);
-}
-
-preloader.addEventListener('pointerdown', startHold);
-preloader.addEventListener('pointerup', cancelHold);
-preloader.addEventListener('pointerleave', cancelHold);
+    preloader.addEventListener('pointerdown', startHold);
+    preloader.addEventListener('pointerup', cancelHold);
+    preloader.addEventListener('pointerleave', cancelHold);
 
 });
         
