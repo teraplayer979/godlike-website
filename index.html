@@ -970,15 +970,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (musicStarted) return;
 
         holdTimer = setTimeout(() => {
+
             bgMusic.muted = false;
-            bgMusic.volume = 0.5;
+            bgMusic.volume = 0.7;
 
             bgMusic.play()
                 .then(() => {
-                    musicStarted = true;
+                    musicStarted = true; // ek baar hi chalega
                 })
                 .catch(() => {});
-        }, 800);
+
+        }, 800); // 0.8 sec hold required
     }
 
     function cancelHold() {
@@ -1073,7 +1075,7 @@ document.addEventListener("click", function(e) {
     }
 });
     </script>
-<audio id="bgMusic" src="song.mp3" preload="auto" loop playsinline muted></audio>
+<audio id="bgMusic" src="song.mp3" preload="auto" playsinline muted></audio>
 <audio id="uiClick" preload="auto" playsinline>
   <source src="click.mp3" type="audio/mpeg">
 </audio>
