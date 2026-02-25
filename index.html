@@ -173,6 +173,15 @@
                 opacity: 1;
             }
         }
+        #preloader {
+    animation: hidePreloader 2.5s forwards;
+}
+
+@keyframes hidePreloader {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; pointer-events: none; }
+}
     </style>
 </head>
 <body class="text-white selection:bg-accent selection:text-black relative">
@@ -970,13 +979,6 @@ document.addEventListener('DOMContentLoaded', () => {
     preloader.addEventListener('touchstart', startHold, {passive: true});
     preloader.addEventListener('touchend', cancelHold);
     // Auto hide preloader after 2.5 seconds
-setTimeout(() => {
-    preloader.style.opacity = "0";
-    preloader.style.pointerEvents = "none";
-    setTimeout(() => {
-        preloader.style.display = "none";
-    }, 600);
-}, 2500);
 
 });
         
