@@ -9,6 +9,9 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="preload" as="image" href="manya.webp" fetchpriority="high">
+    
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -201,7 +204,7 @@
     <header class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-voidDeep pt-28 pb-12">
         
         <div class="absolute inset-0 z-0">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] bg-gold/5 blur-[120px] rounded-full pointer-events-none animate-pulse-slow"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] bg-gold/5 blur-[60px] md:blur-[120px] rounded-full pointer-events-none animate-pulse-slow"></div>
             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-15 mix-blend-overlay"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-voidDeep via-transparent to-voidDeep"></div>
         </div>
@@ -226,7 +229,7 @@
                 <div class="mb-12">
                     <div class="inline-flex items-center gap-5 bg-carbon/90 border border-gold/30 backdrop-blur-md rounded-sm py-4 px-6 hover:border-gold transition-all duration-300 shadow-2xl shadow-black/50 w-full md:w-auto group">
                         
-                        <button id="playBtn" class="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gold text-black rounded-sm hover:scale-105 transition-transform active:scale-95 shadow-lg shadow-gold/20">
+                        <button id="playBtn" aria-label="Play Audio" class="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-gold text-black rounded-sm hover:scale-105 transition-transform active:scale-95 shadow-lg shadow-gold/20">
                             <i class="fas fa-play text-lg ml-1" id="playIcon"></i>
                         </button>
 
@@ -245,7 +248,7 @@
                             </div>
                         </div>
 
-                        <button id="muteBtn" class="text-gray-500 hover:text-white transition-colors ml-2">
+                        <button id="muteBtn" aria-label="Mute Audio" class="text-gray-500 hover:text-white transition-colors ml-2">
                             <i class="fas fa-volume-up" id="muteIcon"></i>
                         </button>
                     </div>
@@ -272,6 +275,9 @@
                     <div class="premium-frame-inner">
                         <img src="manya.webp" 
                              alt="Manya" 
+                             fetchpriority="high"
+                             loading="eager"
+                             decoding="async"
                              class="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105">
                         
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
@@ -344,7 +350,7 @@
         <p class="font-rajdhani text-gray-600 text-xs font-bold uppercase tracking-[0.2em]">&copy; 2026 GodLike Esports. All Rights Reserved.</p>
     </footer>
 
-    <script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', () => {
             
             // --- DOM ELEMENTS ---
@@ -356,10 +362,7 @@
             const progressFill = document.getElementById('progressFill');
             const visualizer = document.getElementById('visualizer');
             
-            // --- STATE VARIABLES ---
-            let playCount = 0;
-            const MAX_AUTO_PLAYS = 2;
-            let isAutoPlaying = true; // Tracks initial auto-loop phase
+            let audioLoaded = false;
 
             // --- UI UPDATE FUNCTION ---
             function updateUI(isPlaying) {
@@ -374,54 +377,39 @@
                 }
             }
 
-            // --- 1. AUTOPLAY LOGIC ---
-            const attemptAutoplay = async () => {
-                try {
-                    audio.volume = 0.7; // Default volume
-                    await audio.play();
-                    updateUI(true);
-                } catch (err) {
-                    console.log("Autoplay blocked by browser. User interaction needed.");
-                    isAutoPlaying = false; // Disable auto logic if blocked
-                    updateUI(false);
-                }
-            };
-
-            // Attempt to start on load
-            attemptAutoplay();
-
-            // --- 2. LOOP LOGIC ---
             audio.addEventListener('ended', () => {
-                playCount++;
-                
-                if (isAutoPlaying && playCount < MAX_AUTO_PLAYS) {
-                    // Replay
-                    audio.currentTime = 0;
-                    audio.play();
-                } else {
-                    // Stop
-                    isAutoPlaying = false; // Auto phase over
-                    updateUI(false);
-                    audio.currentTime = 0;
-                    progressFill.style.width = '0%';
-                }
+                updateUI(false);
+                audio.currentTime = 0;
+                progressFill.style.width = '0%';
             });
 
-            // --- 3. MANUAL CONTROLS ---
-            playBtn.addEventListener('click', () => {
-                // Manual interaction kills auto-loop logic immediately
-                isAutoPlaying = false; 
-
+            // --- MANUAL PLAY CONTROLS ---
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                if (!audioLoaded) {
+                    audio.load();
+                    audioLoaded = true;
+                }
+                
                 if (audio.paused) {
-                    audio.play();
-                    updateUI(true);
+                    const playPromise = audio.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            updateUI(true);
+                        }).catch(error => {
+                            console.error("Playback prevented:", error);
+                            updateUI(false);
+                        });
+                    }
                 } else {
                     audio.pause();
                     updateUI(false);
                 }
             });
 
-            muteBtn.addEventListener('click', () => {
+            muteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 audio.muted = !audio.muted;
                 if (audio.muted) {
                     muteIcon.classList.remove('fa-volume-up');
@@ -434,15 +422,20 @@
                 }
             });
 
-            // --- 4. PROGRESS BAR ---
+            // --- THROTTLED PROGRESS BAR ---
+            let lastUpdate = 0;
             audio.addEventListener('timeupdate', () => {
-                if(audio.duration) {
-                    const percent = (audio.currentTime / audio.duration) * 100;
-                    progressFill.style.width = `${percent}%`;
+                const now = performance.now();
+                if(now - lastUpdate > 100) { 
+                    if(audio.duration) {
+                        const percent = (audio.currentTime / audio.duration) * 100;
+                        progressFill.style.width = `${percent}%`;
+                    }
+                    lastUpdate = now;
                 }
             });
 
-            // --- 5. SCROLL ANIMATION OBSERVER ---
+            // --- SCROLL ANIMATION OBSERVER ---
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
@@ -453,6 +446,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
+                        observer.unobserve(entry.target); 
                     }
                 });
             }, observerOptions);
