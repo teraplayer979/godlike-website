@@ -969,6 +969,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     preloader.addEventListener('touchstart', startHold, {passive: true});
     preloader.addEventListener('touchend', cancelHold);
+    // Auto hide preloader after 2.5 seconds
+setTimeout(() => {
+    preloader.style.opacity = "0";
+    preloader.style.pointerEvents = "none";
+    setTimeout(() => {
+        preloader.style.display = "none";
+    }, 600);
+}, 2500);
 
 });
         
