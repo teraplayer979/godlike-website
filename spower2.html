@@ -8,7 +8,9 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="image" href="spower.png" fetchpriority="high">
+    
+    <link rel="preload" as="image" href="spower.webp" fetchpriority="high">
+    
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -141,7 +143,7 @@
 
     <header class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-voidDeep pt-28 pb-12">
         <div class="absolute inset-0 z-0 pointer-events-none">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] bg-gold/5 blur-[120px] rounded-full will-change-transform"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] bg-gold/5 blur-[60px] md:blur-[120px] rounded-full will-change-transform"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-voidDeep via-transparent to-voidDeep"></div>
         </div>
 
@@ -203,7 +205,7 @@
                     <div class="corner-accent corner-br"></div>
 
                     <div class="premium-frame-inner">
-                        <img src="spower.png" alt="Spower" width="550" height="733" fetchpriority="high" decoding="async" class="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105 will-change-transform">
+                        <img src="spower.webp" alt="Spower" width="550" height="733" fetchpriority="high" loading="eager" decoding="async" class="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105 will-change-transform">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
                         <div class="absolute bottom-6 right-6 z-20">
                             <span class="text-white/50 text-[10px] font-bold tracking-widest uppercase block text-right">GodLike</span>
@@ -278,12 +280,6 @@
             const muteIcon = document.getElementById('muteIcon');
             const progressFill = document.getElementById('progressFill');
             const visualizer = document.getElementById('visualizer');
-            
-            let playCount = 0;
-            const MAX_AUTO_PLAYS = 2;
-            let isAutoPlaying = true;
-            let audioLoaded = false;
-            let playPromise;
 
             function updateUI(isPlaying) {
                 if (isPlaying) {
@@ -296,75 +292,34 @@
                     visualizer.classList.add('paused');
                 }
             }
-            
-            const handleAudioInteraction = () => {
-                if(!audioLoaded) {
-                    audio.load();
-                    audioLoaded = true;
-                }
-                
+
+            // FIX 1: Audio Optimization (Manual interaction only, no document-level auto-play attempts)
+            audio.addEventListener('ended', () => {
+                updateUI(false);
+                audio.currentTime = 0;
+                progressFill.style.width = '0%';
+            });
+
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Safe boundary
                 if (audio.paused) {
-                    playPromise = audio.play();
+                    const playPromise = audio.play();
                     if (playPromise !== undefined) {
-                        playPromise.then(_ => {
+                        playPromise.then(() => {
                             updateUI(true);
-                            isAutoPlaying = false;
-                        })
-                        .catch(error => {
-                            console.error("Autoplay prevented:", error);
+                        }).catch(error => {
+                            console.error("Playback prevented:", error);
                             updateUI(false);
-                            isAutoPlaying = false;
                         });
                     }
                 } else {
                     audio.pause();
                     updateUI(false);
-                    isAutoPlaying = false;
                 }
-            };
-
-            // Instant audio initialization on user interaction anywhere on the page
-            const initializeAudioOnFirstInteraction = () => {
-                if(!audioLoaded) {
-                    audio.load();
-                    audioLoaded = true;
-                    // Try autoplay if possible, otherwise wait for specific play button click
-                    playPromise = audio.play();
-                    if(playPromise !== undefined) {
-                        playPromise.then(_ => {
-                            updateUI(true);
-                        }).catch(() => {
-                           updateUI(false);
-                        });
-                    }
-                    document.removeEventListener('click', initializeAudioOnFirstInteraction);
-                    document.removeEventListener('touchstart', initializeAudioOnFirstInteraction);
-                }
-            };
-            
-            document.addEventListener('click', initializeAudioOnFirstInteraction, {once:true, passive:true});
-            document.addEventListener('touchstart', initializeAudioOnFirstInteraction, {once:true, passive:true});
-
-            audio.addEventListener('ended', () => {
-                playCount++;
-                if (isAutoPlaying && playCount < MAX_AUTO_PLAYS) {
-                    audio.currentTime = 0;
-                    audio.play().catch(()=>{});
-                } else {
-                    isAutoPlaying = false;
-                    updateUI(false);
-                    audio.currentTime = 0;
-                    progressFill.style.width = '0%';
-                }
-            });
-
-            playBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent duplicate firing from document listener
-                handleAudioInteraction();
             });
 
             muteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Safe boundary
                 audio.muted = !audio.muted;
                 if (audio.muted) {
                     muteIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
@@ -375,11 +330,11 @@
                 }
             });
 
-            // Throttle timeupdate to save performance
+            // Throttled UI updates to prevent layout thrashing
             let lastUpdate = 0;
             audio.addEventListener('timeupdate', () => {
                 const now = performance.now();
-                if(now - lastUpdate > 100) { // Update every 100ms
+                if(now - lastUpdate > 100) { 
                     if(audio.duration) {
                         const percent = (audio.currentTime / audio.duration) * 100;
                         progressFill.style.width = `${percent}%`;
@@ -388,10 +343,11 @@
                 }
             });
 
+            // Efficient Intersection Observer
             const observerOptions = {
                 root: null,
                 rootMargin: "0px 0px -10% 0px",
-                threshold: 0.1 
+                threshold: 0.15 
             };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
