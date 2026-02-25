@@ -48,11 +48,16 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             loader.remove();
         }, 1000);
-    }, 2500); // 3 sec hold screen
+    }, 2500); 
 });
     </script>
 
     <style>
+        * {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
         html, body {
             background-color: transparent; 
             color: #F0F0F0;
@@ -67,22 +72,27 @@ window.addEventListener('load', () => {
         ::-webkit-scrollbar-thumb:hover { background: #FFCC00; }
 
         @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translate3d(0%, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
         }
-        .animate-marquee { animation: marquee 20s linear infinite; }
+        .animate-marquee { 
+            animation: marquee 20s linear infinite; 
+            transform: translateZ(0);
+            will-change: transform;
+        }
 
         .clip-angled { clip-path: polygon(10% 0, 100% 0, 100% 85%, 90% 100%, 0 100%, 0 15%); }
         .text-stroke { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1); color: transparent; }
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translate3d(0, 30px, 0);
             transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
         .reveal.active {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate3d(0, 0, 0);
         }
 
         .menu-open {
@@ -97,6 +107,7 @@ window.addEventListener('load', () => {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
+  transform: translateZ(0);
 }
 
 .discord-btn::after {
@@ -108,6 +119,7 @@ window.addEventListener('load', () => {
   height: 2px;
   background: #FFCC00;
   transition: width 0.3s ease;
+  will-change: width;
 }
 
 .discord-btn:hover::after {
@@ -121,13 +133,43 @@ window.addEventListener('load', () => {
 
 .animate-pulse-slow {
     animation: pulseSlow 2s infinite ease-in-out;
+    will-change: transform, opacity;
 }
+
+/* Optimize image rendering */
+img {
+    transform: translateZ(0);
+}
+
+/* Optimize hover shadows for performance while keeping visual look */
+.hover-shadow-opt {
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.hover-shadow-opt::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+.hover-shadow-opt:hover::after {
+    opacity: 1;
+}
+
+/* Specific red shadow optimization */
+.hover-shadow-red::after {
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
+}
+
     </style>
 </head>
 <body class="text-white selection:bg-accent selection:text-black relative">
 
-    <div class="fixed inset-0 z-[-1] pointer-events-none bg-voidDeep">
-        <img src="bg.png" alt="Atmosphere" class="absolute inset-0 w-full h-full object-cover opacity-20 blur-[1px]">
+    <div class="fixed inset-0 z-[-1] pointer-events-none bg-voidDeep transform-gpu will-change-transform">
+        <img src="bg.png" alt="Atmosphere" class="absolute inset-0 w-full h-full object-cover opacity-20 transform-gpu">
         <div class="absolute inset-0 bg-black/50"></div>
     </div>
 
@@ -145,7 +187,7 @@ window.addEventListener('load', () => {
 
         <div class="absolute bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
 
-           <div class="w-8 h-8 border border-accent/50 rounded-full flex items-center justify-center animate-pulse-slow backdrop-blur-sm">
+           <div class="w-8 h-8 border border-accent/50 rounded-full flex items-center justify-center animate-pulse-slow">
     <div class="w-1.5 h-1.5 bg-accent rounded-full"></div>
 </div>
 
@@ -159,11 +201,11 @@ window.addEventListener('load', () => {
 
 </div>
 
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-[60] transition-all duration-300 border-b border-white/5 bg-voidDeep/80 backdrop-blur-xl">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-[60] transition-all duration-300 border-b border-white/5 bg-voidDeep/95">
         <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-12 h-16 md:h-20 flex items-center justify-between transition-all duration-300" id="nav-container">
             
             <a href="#" class="group flex items-center gap-3">
-                <img src="godlikelogo.png" alt="GodLike Esports" class="h-12 md:h-12 opacity-90 group-hover:opacity-100 transition-opacity">
+                <img src="godlikelogo.png" alt="GodLike Esports" class="h-12 md:h-12 opacity-90 group-hover:opacity-100 transition-opacity transform-gpu">
                 <span class="font-oswald text-lg md:text-2xl font-bold tracking-widest text-accent uppercase transition-colors">
                     GODLIKE
                 </span>
@@ -198,7 +240,7 @@ window.addEventListener('load', () => {
         </div>
     </nav>
 
-    <div id="mobile-menu" class="fixed inset-0 bg-voidDeep/95 backdrop-blur-2xl z-50 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden">
+    <div id="mobile-menu" class="fixed inset-0 bg-voidDeep/95 z-50 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden">
         <a href="#hero" class="mobile-link text-2xl font-oswald font-bold uppercase tracking-widest text-white hover:text-accent transition-colors">Home</a>
         <a href="#roster" class="mobile-link text-2xl font-oswald font-bold uppercase tracking-widest text-gray-400 hover:text-accent transition-colors">Roster</a>
         <a href="#videos" class="mobile-link text-2xl font-oswald font-bold uppercase tracking-widest text-gray-400 hover:text-accent transition-colors">Media</a>
@@ -215,9 +257,9 @@ window.addEventListener('load', () => {
 </a>
         
         <div class="flex gap-8 mt-10">
-            <a href="https://youtube.com/@godlikeesportss?si=SLVQDt-01yYhn3Jz" target="_blank" class="text-3xl text-gray-400 hover:text-accent"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.instagram.com/godlike.in?igsh=c3l2aDVyajk1OWsy" target="_blank" class="text-3xl text-gray-400 hover:text-accent"><i class="fab fa-instagram"></i></a>
-            <a href="https://x.com/GodLike_in" target="_blank" class="text-3xl text-gray-400 hover:text-accent"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://youtube.com/@godlikeesportss?si=SLVQDt-01yYhn3Jz" target="_blank" class="text-3xl text-gray-400 hover:text-accent transform-gpu"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/godlike.in?igsh=c3l2aDVyajk1OWsy" target="_blank" class="text-3xl text-gray-400 hover:text-accent transform-gpu"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/GodLike_in" target="_blank" class="text-3xl text-gray-400 hover:text-accent transform-gpu"><i class="fa-brands fa-x-twitter"></i></a>
         </div>
     </div>
 
@@ -241,11 +283,11 @@ window.addEventListener('load', () => {
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 md:gap-6">
-                    <a href="#roster" class="group relative inline-flex items-center justify-center px-8 md:px-12 py-4 bg-accent text-black font-oswald font-bold text-sm md:text-base uppercase tracking-widest transition-all hover:bg-white clip-angled w-full sm:w-auto text-center">
+                    <a href="#roster" class="group relative inline-flex items-center justify-center px-8 md:px-12 py-4 bg-accent text-black font-oswald font-bold text-sm md:text-base uppercase tracking-widest transition-all hover:bg-white clip-angled w-full sm:w-auto text-center transform-gpu">
                         <span class="relative z-10">View Roster</span>
                     </a>
                     
-                    <a href="#videos" class="group relative inline-flex items-center justify-center px-8 md:px-12 py-4 border border-white/20 text-white font-oswald font-bold text-sm md:text-base uppercase tracking-widest hover:bg-white hover:text-black transition-all clip-angled w-full sm:w-auto text-center">
+                    <a href="#videos" class="group relative inline-flex items-center justify-center px-8 md:px-12 py-4 border border-white/20 text-white font-oswald font-bold text-sm md:text-base uppercase tracking-widest hover:bg-white hover:text-black transition-all clip-angled w-full sm:w-auto text-center transform-gpu">
                         <span class="mr-3"><i class="fas fa-play text-xs"></i></span> Official Releases
                     </a>
                 </div>
@@ -254,13 +296,13 @@ window.addEventListener('load', () => {
 
         <div class="absolute right-6 md:right-12 bottom-12 z-30 hidden lg:flex flex-col items-center gap-8 text-gray-600">
             <div class="h-24 w-[1px] bg-white/20 mx-auto"></div>
-            <a href="https://youtube.com/@godlikeesportss?si=SLVQDt-01yYhn3Jz" target="_blank" class="hover:text-accent transition-colors text-xl" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.instagram.com/godlike.in?igsh=c3l2aDVyajk1OWsy" target="_blank" class="hover:text-accent transition-colors text-xl" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://x.com/GodLike_in" target="_blank" class="hover:text-accent transition-colors text-xl" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://youtube.com/@godlikeesportss?si=SLVQDt-01yYhn3Jz" target="_blank" class="hover:text-accent transition-colors text-xl transform-gpu" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/godlike.in?igsh=c3l2aDVyajk1OWsy" target="_blank" class="hover:text-accent transition-colors text-xl transform-gpu" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/GodLike_in" target="_blank" class="hover:text-accent transition-colors text-xl transform-gpu" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
         </div>
     </header>
 
-    <div class="bg-charcoal/80 backdrop-blur-sm border-y border-white/5 relative z-40 overflow-hidden py-4 md:py-6">
+    <div class="bg-charcoal/90 border-y border-white/5 relative z-40 overflow-hidden py-4 md:py-6">
         <div class="flex whitespace-nowrap animate-marquee">
             <div class="flex items-center gap-16 md:gap-32 px-8 md:px-16">
                 <span class="font-oswald font-bold text-2xl md:text-4xl text-transparent text-stroke uppercase tracking-widest opacity-50">DIL SE GODLIKE</span>
@@ -275,7 +317,7 @@ window.addEventListener('load', () => {
         </div>
     </div>
 
-    <section class="py-16 md:py-32 bg-void/50 backdrop-blur-sm relative flex items-center justify-center">
+    <section class="py-16 md:py-32 bg-void/90 relative flex items-center justify-center">
         <div class="container max-w-6xl mx-auto px-6 text-center">
             <span class="font-rajdhani text-accent text-xs font-bold tracking-ultra uppercase mb-6 md:mb-8 block reveal">Core Philosophy</span>
             <h2 class="font-oswald text-3xl md:text-5xl lg:text-6xl text-white font-medium uppercase leading-tight mb-8 md:mb-10 reveal">
@@ -289,7 +331,7 @@ window.addEventListener('load', () => {
         </div>
     </section>
 
-    <section class="py-16 md:py-32 bg-carbon/80 border-y border-white/5 relative backdrop-blur-sm">
+    <section class="py-16 md:py-32 bg-carbon/90 border-y border-white/5 relative">
         <div class="max-w-[1800px] mx-auto px-6 lg:px-12">
             
             <div class="flex flex-col md:flex-row justify-between md:items-end gap-6 mb-10 md:mb-20 reveal">
@@ -297,149 +339,150 @@ window.addEventListener('load', () => {
                     <h3 class="font-oswald text-4xl md:text-5xl text-white uppercase font-bold mb-2">Live <span class="text-accent">Operations</span></h3>
                     <p class="font-rajdhani text-gray-500 tracking-widest uppercase text-xs md:text-sm">Real-time creator status</p>
                 </div>
-                <div class="inline-flex items-center gap-3 border border-white/10 px-4 py-2 rounded-sm bg-void w-max">
+                <div class="inline-flex items-center gap-3 border border-white/10 px-4 py-2 rounded-sm bg-void w-max transform-gpu">
                     <span class="w-2 h-2 rounded-full bg-gray-500" id="global-status-dot"></span>
                     <span class="font-rajdhani text-gray-400 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors duration-300" id="global-status-text">System Standby</span>
                 </div>
             </div>
 
             <div id="liveGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
-                <a href="https://youtube.com/@jonathangamingyt" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="jonathan.png" alt="Jonathan" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                
+                <a href="https://youtube.com/@jonathangamingyt" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="jonathan.png" alt="Jonathan" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Jonathan</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Jonathan</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@godlmanyaa" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="manya.png" alt="Manya" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@godlmanyaa" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="manya.png" alt="Manya" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Manya</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Manya</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@godlgodz11" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="godz.png" alt="Godz" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@godlgodz11" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="godz.png" alt="Godz" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Godz</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Godz</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@admino_gaming19" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="admino.png" alt="Admino" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@admino_gaming19" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="admino.png" alt="Admino" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Admino</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Admino</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@spowergaming" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="spower.png" alt="Spower" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@spowergaming" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="spower.png" alt="Spower" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Spower</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Spower</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@krontengaming" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="kronten.png" alt="Kronten" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@krontengaming" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="kronten.png" alt="Kronten" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Kronten</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Kronten</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@godlamar" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="amar.png" alt="Amar" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@godlamar" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="amar.png" alt="Amar" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Amar</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Amar</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@ankiiibot" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="ankibot.png" alt="Ankibot" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@ankiiibot" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="ankibot.png" alt="Ankibot" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Ankibot</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Ankibot</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@aurum_pubg" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="aurum.png" alt="Aurum" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@aurum_pubg" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="aurum.png" alt="Aurum" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Aurum</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Aurum</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@bachuuuuu" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="bachu.png" alt="Bachu" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@bachuuuuu" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="bachu.png" alt="Bachu" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Bachu</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Bachu</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@dobbyislive_" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="dobby.png" alt="Dobby" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@dobbyislive_" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="dobby.png" alt="Dobby" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Dobby</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Dobby</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@crowbgmi" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="crow.png" alt="Crow" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@crowbgmi" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="crow.png" alt="Crow" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Crow</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Crow</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@haivaan" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="haivaan.png" alt="Haivaan" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@haivaan" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="haivaan.png" alt="Haivaan" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Haivaan</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Haivaan</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
 
-                <a href="https://youtube.com/@lolzzzgaming" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block">
-                    <img loading="lazy" src="lolzz.png" alt="Lolzz" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-all duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100">
+                <a href="https://youtube.com/@lolzzzgaming" target="_blank" rel="noopener noreferrer" class="group relative h-48 sm:h-56 md:h-64 lg:h-72 w-full bg-carbon border border-white/5 hover:border-accent/50 overflow-hidden transition-all duration-300 rounded-sm block hover-shadow-opt">
+                    <img loading="lazy" src="lolzz.png" alt="Lolzz" onerror="this.src='godlikelogo.png'; this.classList.add('p-8','opacity-50')" class="w-full h-full object-cover object-top transition-transform duration-500 grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="absolute top-3 left-3 z-20 bg-black/70 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
+                    <div class="absolute top-3 left-3 z-20 bg-black/90 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 uppercase tracking-wider rounded-sm">Offline</div>
                     <div class="absolute bottom-0 left-0 w-full p-3 md:p-5 z-20">
-                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transform group-hover:-translate-y-1 transition-transform duration-300">Lolzz</h4>
+                        <h4 class="font-oswald text-lg md:text-xl lg:text-2xl text-white uppercase whitespace-nowrap overflow-hidden text-ellipsis transition-transform duration-300 transform-gpu group-hover:-translate-y-1">Lolzz</h4>
                         <p class="font-rajdhani text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">Content Creator</p>
                     </div>
                 </a>
@@ -449,7 +492,7 @@ window.addEventListener('load', () => {
         </div>
     </section>
 
-    <section id="videos" class="py-16 md:py-32 bg-void/50 relative backdrop-blur-sm">
+    <section id="videos" class="py-16 md:py-32 bg-void/90 relative">
         <div class="max-w-[1800px] mx-auto px-6 lg:px-12">
             
             <div class="mb-10 md:mb-20 reveal">
@@ -457,17 +500,17 @@ window.addEventListener('load', () => {
                 <h2 class="font-oswald text-4xl md:text-5xl text-white uppercase font-bold">GODLIKE <span class="text-white/50">MEDIA</span></h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 reveal delay-100">
-                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 reveal">
+                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300 transform-gpu">
                     <iframe loading="lazy" class="w-full h-full absolute inset-0" src="https://www.youtube.com/embed/2H41r4Jo0DE" title="GodLike Release 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300">
+                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300 transform-gpu">
                     <iframe loading="lazy" class="w-full h-full absolute inset-0" src="https://www.youtube.com/embed/5L5DXT5Gp_M" title="GodLike Release 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300">
+                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300 transform-gpu">
                     <iframe loading="lazy" class="w-full h-full absolute inset-0" src="https://www.youtube.com/embed/VO1LRnixCQY" title="GodLike Release 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300">
+                <div class="aspect-video relative border border-white/10 bg-black hover:-translate-y-1 transition-transform duration-300 transform-gpu">
                     <iframe loading="lazy" class="w-full h-full absolute inset-0" src="https://www.youtube.com/embed/1WqmjB6UdzY" title="GodLike Release 4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
@@ -475,7 +518,7 @@ window.addEventListener('load', () => {
         </div>
     </section>
 
-    <section id="roster" class="py-16 md:py-32 bg-charcoal/80 border-t border-white/5 relative overflow-hidden backdrop-blur-sm">
+    <section id="roster" class="py-16 md:py-32 bg-charcoal/90 border-t border-white/5 relative overflow-hidden">
         <div class="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-10">
             <div class="flex flex-col md:flex-row justify-between md:items-end gap-6 mb-10 md:mb-20 reveal">
                 <div>
@@ -486,67 +529,67 @@ window.addEventListener('load', () => {
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-6">
                 
-                <a href="jonathan2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal overflow-hidden block">
+                <a href="jonathan2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal overflow-hidden block hover-shadow-opt">
     <div class="absolute inset-0 z-10">
        <img loading="lazy" src="jonathan.png" alt="Jonathan"
-class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105"> 
+class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"> 
 
         <div class="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent opacity-90"></div>
     </div>
     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 lg:p-8 z-20">
         <span class="text-accent text-[9px] md:text-xs font-bold tracking-ultra uppercase mb-1 md:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500">Assaulter</span>
-        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">
+        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transition-transform duration-500 transform-gpu group-hover:-translate-y-2 whitespace-nowrap overflow-hidden text-ellipsis">
             Jonathan
         </h3>
     </div>
 </a>
-               <a href="manya2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal delay-100 overflow-hidden block">
+               <a href="manya2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal overflow-hidden block hover-shadow-opt">
     <div class="absolute inset-0 z-10">
-        <img loading="lazy" src="manya.png" alt="Manya" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105">
+        <img loading="lazy" src="manya.png" alt="Manya" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent opacity-90"></div>
     </div>
     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 lg:p-8 z-20">
         <span class="text-accent text-[9px] md:text-xs font-bold tracking-ultra uppercase mb-1 md:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500">IGL</span>
-        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">
+        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transition-transform duration-500 transform-gpu group-hover:-translate-y-2 whitespace-nowrap overflow-hidden text-ellipsis">
             Manya
         </h3>
     </div>
 </a>
 
-               <a href="spower2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal delay-200 overflow-hidden block">
+               <a href="spower2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal overflow-hidden block hover-shadow-opt">
     <div class="absolute inset-0 z-10">
-        <img loading="lazy" src="spower.png" alt="Spower" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105">
+        <img loading="lazy" src="spower.png" alt="Spower" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent opacity-90"></div>
     </div>
     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 lg:p-8 z-20">
         <span class="text-accent text-[9px] md:text-xs font-bold tracking-ultra uppercase mb-1 md:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500">Fragger</span>
-        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">
+        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transition-transform duration-500 transform-gpu group-hover:-translate-y-2 whitespace-nowrap overflow-hidden text-ellipsis">
             Spower
         </h3>
     </div>
 </a>
 
-               <a href="godz2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal delay-300 overflow-hidden block">
+               <a href="godz2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal overflow-hidden block hover-shadow-opt">
     <div class="absolute inset-0 z-10">
-        <img loading="lazy" src="godz.png" alt="Godz" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105">
+        <img loading="lazy" src="godz.png" alt="Godz" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105">
         <div class="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent opacity-90"></div>
     </div>
     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 lg:p-8 z-20">
         <span class="text-accent text-[9px] md:text-xs font-bold tracking-ultra uppercase mb-1 md:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500">Support</span>
-        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">
+        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transition-transform duration-500 transform-gpu group-hover:-translate-y-2 whitespace-nowrap overflow-hidden text-ellipsis">
             Godz
         </h3>
     </div>
 </a>
 
-               <a href="admino2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal delay-400 overflow-hidden sm:col-span-2 md:col-span-1 lg:col-span-1 block">
+               <a href="admino2.html" class="group relative h-[280px] sm:h-[350px] md:h-[450px] lg:h-[600px] w-full bg-void border border-white/5 cursor-pointer reveal overflow-hidden sm:col-span-2 md:col-span-1 lg:col-span-1 block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="admino.png" alt="Admino" class="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105">
+                        <img loading="lazy" src="admino.png" alt="Admino" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-void via-void/40 to-transparent opacity-90"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 lg:p-8 z-20">
                         <span class="text-accent text-[9px] md:text-xs font-bold tracking-ultra uppercase mb-1 md:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500">Flex</span>
-                        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">Admino</h3>
+                        <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transition-transform duration-500 transform-gpu group-hover:-translate-y-2 whitespace-nowrap overflow-hidden text-ellipsis">Admino</h3>
                     </div>
                 </a>
 
@@ -554,15 +597,15 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
         </div>
     </section>
 
-    <section id="family" class="py-16 md:py-32 bg-voidDeep relative overflow-hidden backdrop-blur-sm border-t border-white/5">
+    <section id="family" class="py-16 md:py-32 bg-voidDeep relative overflow-hidden border-t border-white/5">
         
         <div class="max-w-[1800px] mx-auto px-6 lg:px-12 relative z-10">
             
             <div class="text-center mb-16 md:mb-24 reveal">
                 <h2 class="font-oswald text-4xl md:text-5xl text-white uppercase font-bold tracking-widest inline-block relative pb-3">
                     FAMILY
-                    <span class="absolute bottom-0 left-0 w-full h-[2px] bg-accent overflow-hidden">
-                        <span class="absolute top-0 left-0 w-full h-full bg-white/50 animate-[marquee_1.5s_linear_infinite]"></span>
+                    <span class="absolute bottom-0 left-0 w-full h-[2px] bg-accent overflow-hidden transform-gpu">
+                        <span class="absolute top-0 left-0 w-full h-full bg-white/50 animate-[marquee_1.5s_linear_infinite] transform-gpu"></span>
                     </span>
                 </h2>
                 <p class="font-rajdhani text-gray-400 tracking-widest uppercase text-sm md:text-base block mt-4">The Pillars of GodLike</p>
@@ -570,9 +613,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
                 
-                <a href="admino3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="admino3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="admino.png" alt="ADMINO" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="admino.png" alt="ADMINO" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -581,9 +624,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="amar.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="amar.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="amar.png" alt="AMAR" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="amar.png" alt="AMAR" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -592,9 +635,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="ankibot.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="ankibot.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="ankibot.png" alt="ANKIBOT" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="ankibot.png" alt="ANKIBOT" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -603,9 +646,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="aurum.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="aurum.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="aurum.png" alt="AURUM" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="aurum.png" alt="AURUM" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -614,9 +657,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="bachu.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="bachu.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="bachu.png" alt="BACHU" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="bachu.png" alt="BACHU" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -625,9 +668,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="crow.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="crow.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="crow.png" alt="CROW" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="crow.png" alt="CROW" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -636,10 +679,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-
-                <a href="dobby.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="dobby.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="dobby.png" alt="DOBBY" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="dobby.png" alt="DOBBY" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -647,9 +689,10 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                         <p class="font-rajdhani text-[10px] md:text-xs text-accent uppercase tracking-widest font-semibold">GodLike Esports</p>
                     </div>
                 </a>
-<a href="baba.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                
+                <a href="baba.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="baba.png" alt="Killer Baba" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="baba.png" alt="Killer Baba" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -657,9 +700,10 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                         <p class="font-rajdhani text-[10px] md:text-xs text-accent uppercase tracking-widest font-semibold">GodLike Esports</p>
                     </div>
                 </a>
-<a href="tanaya.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                
+                <a href="tanaya.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="tanaya.png" alt="Tanaya" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="tanaya.png" alt="Tanaya" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -668,9 +712,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-<a href="zgod.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="zgod.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="zgod.png" alt="zgod" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="zgod.png" alt="zgod" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -679,9 +723,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="godz3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="godz3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="godz.png" alt="GODZ" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="godz.png" alt="GODZ" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -690,9 +734,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="haivaan.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="haivaan.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="haivaan.png" alt="HAIVAAN" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="haivaan.png" alt="HAIVAAN" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -701,9 +745,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="ipreet.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="ipreet.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="ipreet.png" alt="IPREET" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="ipreet.png" alt="IPREET" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -712,9 +756,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="jonathan3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="jonathan3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="jonathan.png" alt="JONATHAN" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="jonathan.png" alt="JONATHAN" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -723,9 +767,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="kronten.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="kronten.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="kronten.png" alt="kronten" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="kronten.png" alt="kronten" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -734,9 +778,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="lolzz.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="lolzz.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="lolzz.png" alt="LOLZZ" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="lolzz.png" alt="LOLZZ" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -745,9 +789,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="manya3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="manya3.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="manya.png" alt="MANYA" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="manya.png" alt="MANYA" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -756,9 +800,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="mizo.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="mizo.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="mizo.png" alt="MIZO" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="mizo.png" alt="MIZO" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -767,9 +811,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="nub.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="nub.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="nub.png" alt="NUB" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="nub.png" alt="NUB" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -778,9 +822,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="sharkshe.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="sharkshe.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="sharkshe.png" alt="SHARKSHE" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="sharkshe.png" alt="SHARKSHE" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -789,14 +833,14 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="spower2.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="spower2.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="spower.png" alt="SPOWER" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="spower.png" alt="SPOWER" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
                        
-    <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">
+    <h3 class="font-oswald text-xl sm:text-2xl lg:text-4xl text-white uppercase mb-1 transform-gpu group-hover:-translate-y-2 transition-transform duration-500 whitespace-nowrap overflow-hidden text-ellipsis">
         Spower
     </h3>
 
@@ -804,9 +848,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                     </div>
                 </a>
 
-                <a href="tahir.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent hover:shadow-[0_0_30px_rgba(255,204,0,0.25)] hover:-translate-y-2 block">
+                <a href="tahir.html" class="group relative h-[250px] sm:h-[300px] md:h-[350px] w-full bg-carbon border border-white/10 cursor-pointer reveal overflow-hidden rounded-md transition-all duration-500 hover:border-accent block hover-shadow-opt">
                     <div class="absolute inset-0 z-10">
-                        <img loading="lazy" src="tahir.png" alt="TAHIR" class="w-full h-full object-cover object-top transition-all duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
+                        <img loading="lazy" src="tahir.png" alt="TAHIR" class="w-full h-full object-cover object-top transition-transform duration-700 opacity-90 group-hover:opacity-100 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
                     </div>
                     <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 z-20">
@@ -824,8 +868,8 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 mb-16 md:mb-24">
                 <div class="col-span-1 sm:col-span-2">
-                    <a href="#" class="inline-block mb-6">
-                        <img loading="lazy" src="godlikelogo.png" alt="GodLike Esports" class="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity">
+                    <a href="#" class="inline-block mb-6 transform-gpu">
+                        <img loading="lazy" src="godlikelogo.png" alt="GodLike Esports" class="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity transform-gpu">
                     </a>
                     <p class="font-rajdhani text-gray-500 max-w-sm text-xs md:text-sm leading-relaxed">
                         The gold standard of Indian Esports. Building champions, dominating servers, and creating history since 2018.
@@ -870,9 +914,9 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
                 <div>
                     <h4 class="font-oswald text-white uppercase text-base md:text-lg mb-6 md:mb-8 tracking-wide">Connect</h4>
                     <div class="flex gap-4">
-                        <a href="https://youtube.com/@godlikeesportss?si=SLVQDt-01yYhn3Jz" target="_blank" aria-label="YouTube" class="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center text-gray-400 hover:border-accent hover:text-accent transition-colors group"><i class="fab fa-youtube text-lg"></i></a>
-                        <a href="https://www.instagram.com/godlike.in?igsh=c3l2aDVyajk1OWsy" target="_blank" aria-label="Instagram" class="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center text-gray-400 hover:border-accent hover:text-accent transition-colors group"><i class="fab fa-instagram text-lg"></i></a>
-                        <a href="https://x.com/GodLike_in" target="_blank" aria-label="X" class="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center text-gray-400 hover:border-accent hover:text-accent transition-colors group"><i class="fa-brands fa-x-twitter text-lg"></i></a>
+                        <a href="https://youtube.com/@godlikeesportss?si=SLVQDt-01yYhn3Jz" target="_blank" aria-label="YouTube" class="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center text-gray-400 hover:border-accent hover:text-accent transition-colors group transform-gpu"><i class="fab fa-youtube text-lg"></i></a>
+                        <a href="https://www.instagram.com/godlike.in?igsh=c3l2aDVyajk1OWsy" target="_blank" aria-label="Instagram" class="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center text-gray-400 hover:border-accent hover:text-accent transition-colors group transform-gpu"><i class="fab fa-instagram text-lg"></i></a>
+                        <a href="https://x.com/GodLike_in" target="_blank" aria-label="X" class="w-10 h-10 md:w-12 md:h-12 border border-white/10 flex items-center justify-center text-gray-400 hover:border-accent hover:text-accent transition-colors group transform-gpu"><i class="fa-brands fa-x-twitter text-lg"></i></a>
                     </div>
                 </div>
             </div>
@@ -889,9 +933,7 @@ class="w-full h-full object-cover object-top transition-all duration-700 group-h
     </footer>
 
     <script>
-        // PRELOADER
         
-// TAP & HOLD MUSIC SYSTEM (SAFE VERSION)
 document.addEventListener('DOMContentLoaded', () => {
 
     const preloader = document.getElementById('preloader');
@@ -915,40 +957,53 @@ document.addEventListener('DOMContentLoaded', () => {
     preloader.addEventListener('mouseup', cancelHold);
     preloader.addEventListener('mouseleave', cancelHold);
 
-    preloader.addEventListener('touchstart', startHold);
+    preloader.addEventListener('touchstart', startHold, {passive: true});
     preloader.addEventListener('touchend', cancelHold);
 
 });
-        // SCROLL REVEAL OBSERVER
+        
         const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries) => {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.1 });
 
         revealElements.forEach(el => revealObserver.observe(el));
 
-        // NAVBAR SCROLL EFFECT
+        
         const navbar = document.getElementById('navbar');
         const navContainer = document.getElementById('nav-container');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('bg-black/90', 'backdrop-blur-xl');
-                navbar.classList.remove('bg-voidDeep/80');
-                navContainer.classList.add('h-14', 'md:h-16');
-                navContainer.classList.remove('h-16', 'md:h-20');
-            } else {
-                navbar.classList.add('bg-voidDeep/80');
-                navbar.classList.remove('bg-black/90', 'backdrop-blur-xl');
-                navContainer.classList.add('h-16', 'md:h-20');
-                navContainer.classList.remove('h-14', 'md:h-16');
-            }
-        });
+        let isScrolling = false;
+        let isNavScrolled = false;
 
-        // MOBILE MENU FADE LOGIC
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                window.requestAnimationFrame(() => {
+                    const shouldBeScrolled = window.scrollY > 50;
+                    if (shouldBeScrolled !== isNavScrolled) {
+                        if (shouldBeScrolled) {
+                            navbar.classList.add('bg-black/95');
+                            navbar.classList.remove('bg-voidDeep/95');
+                            navContainer.classList.add('h-14', 'md:h-16');
+                            navContainer.classList.remove('h-16', 'md:h-20');
+                        } else {
+                            navbar.classList.add('bg-voidDeep/95');
+                            navbar.classList.remove('bg-black/95');
+                            navContainer.classList.add('h-16', 'md:h-20');
+                            navContainer.classList.remove('h-14', 'md:h-16');
+                        }
+                        isNavScrolled = shouldBeScrolled;
+                    }
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        }, { passive: true });
+
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const menuIcon = document.getElementById('menu-icon');
@@ -972,17 +1027,13 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-// REAL iOS SAFE CLICK SOUND
 
-
-// SIMPLE STABLE CLICK SOUND (iOS SAFE)
 
 const clickAudio = document.getElementById("uiClick");
 
-// Unlock audio on first user interaction
 document.addEventListener("touchstart", () => {
     clickAudio.load();
-}, { once: true });
+}, { once: true, passive: true });
 
 document.addEventListener("click", function(e) {
     const clickable = e.target.closest("a, button");
