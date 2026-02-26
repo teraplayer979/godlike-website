@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Block specific pages (main player versions you excluded)
+Disallow: /admino.html
+Disallow: /manya.html
+Disallow: /godz.html
+Disallow: /spower.html
+Disallow: /jonathan.html
+Disallow: /godlike.html
+Disallow: /process.html
+Disallow: /about.html
+
+Sitemap: https://teamgodlike.online/sitemap.xml
