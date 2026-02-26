@@ -438,7 +438,7 @@
             audio.addEventListener('timeupdate', () => {
                 if(audio.duration) {
                     const percent = (audio.currentTime / audio.duration) * 100;
-                    progressFill.style.width = ${percent}%;
+                    progressFill.style.width = `${percent}%`;
                 }
             });
 
