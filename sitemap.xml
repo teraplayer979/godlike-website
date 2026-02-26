@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://teamgodlike.online/</loc>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <url>
+    <loc>https://teamgodlike.online/index.html</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Core Pages -->
+  <url><loc>https://teamgodlike.online/roster.html</loc></url>
+  <url><loc>https://teamgodlike.online/contactus.html</loc></url>
+  <url><loc>https://teamgodlike.online/privacy.html</loc></url>
+  <url><loc>https://teamgodlike.online/termsandcondition.html</loc></url>
+  <url><loc>https://teamgodlike.online/social.html</loc></url>
+  <url><loc>https://teamgodlike.online/legacy.html</loc></url>
+  <url><loc>https://teamgodlike.online/trophies.html</loc></url>
+
+  <!-- Player Version Pages -->
+  <url><loc>https://teamgodlike.online/admino2.html</loc></url>
+  <url><loc>https://teamgodlike.online/admino3.html</loc></url>
+  <url><loc>https://teamgodlike.online/manya2.html</loc></url>
+  <url><loc>https://teamgodlike.online/manya3.html</loc></url>
+  <url><loc>https://teamgodlike.online/godz2.html</loc></url>
+  <url><loc>https://teamgodlike.online/godz3.html</loc></url>
+  <url><loc>https://teamgodlike.online/spower2.html</loc></url>
+  <url><loc>https://teamgodlike.online/spower3.html</loc></url>
+  <url><loc>https://teamgodlike.online/jonathan2.html</loc></url>
+  <url><loc>https://teamgodlike.online/jonathan3.html</loc></url>
+
+  <!-- Other Player Pages -->
+  <url><loc>https://teamgodlike.online/amar.html</loc></url>
+  <url><loc>https://teamgodlike.online/aurum.html</loc></url>
+  <url><loc>https://teamgodlike.online/ankibot.html</loc></url>
+  <url><loc>https://teamgodlike.online/baba.html</loc></url>
+  <url><loc>https://teamgodlike.online/bachu.html</loc></url>
+  <url><loc>https://teamgodlike.online/crow.html</loc></url>
+  <url><loc>https://teamgodlike.online/dobby.html</loc></url>
+  <url><loc>https://teamgodlike.online/haivan.html</loc></url>
+  <url><loc>https://teamgodlike.online/kronten.html</loc></url>
+  <url><loc>https://teamgodlike.online/lolzz.html</loc></url>
+  <url><loc>https://teamgodlike.online/mizo.html</loc></url>
+  <url><loc>https://teamgodlike.online/nub.html</loc></url>
+  <url><loc>https://teamgodlike.online/sharkse.html</loc></url>
+  <url><loc>https://teamgodlike.online/tahir.html</loc></url>
+  <url><loc>https://teamgodlike.online/tanaya.html</loc></url>
+  <url><loc>https://teamgodlike.online/zgod.html</loc></url>
+
+</urlset>
