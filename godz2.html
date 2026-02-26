@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MANYA | GodLike Esports</title>
+    <title>GODZ | GodLike Esports</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <link rel="preload" as="image" href="manya.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="godz.webp" fetchpriority="high">
     
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
     <script>
         tailwind.config = {
@@ -98,11 +99,11 @@
         /* --- PREMIUM FRAME SYSTEM --- */
         .premium-frame-container {
             position: relative;
-            padding: 4px; /* Thickness of gold border */
+            padding: 4px; 
             background: linear-gradient(135deg, #8A6E2F 0%, #FFD700 50%, #8A6E2F 100%);
             box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.15);
             border-radius: 2px;
-            transition: all 0.5s ease;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             will-change: transform, box-shadow;
         }
 
@@ -117,7 +118,7 @@
             height: 100%;
             width: 100%;
             overflow: hidden;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.8); /* Inner depth */
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.8); 
         }
 
         /* Corner Accents */
@@ -128,7 +129,7 @@
             border-color: #FFD700;
             border-style: solid;
             z-index: 20;
-            transition: all 0.3s ease;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
         }
         .corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
         .corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
@@ -172,7 +173,7 @@
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
         .reveal.active {
@@ -185,13 +186,19 @@
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #333; }
         ::-webkit-scrollbar-thumb:hover { background: #FFD700; }
+        
+        /* Content Visibility Optimization */
+        .content-visibility-auto {
+            content-visibility: auto;
+            contain-intrinsic-size: auto 1000px;
+        }
     </style>
 </head>
 <body class="font-rajdhani selection:bg-gold selection:text-black">
 
    <audio id="voiceAudio" preload="auto">
-    <source src="manya.mp3" type="audio/mpeg">
-   </audio>
+    <source src="godz.mp3" type="audio/mpeg">
+</audio>
 
     <nav class="fixed w-full z-50 top-0 py-6 px-6 md:px-12 flex justify-between items-center mix-blend-difference text-white">
         <a href="#" class="font-oswald font-bold text-2xl tracking-widest uppercase hover:text-gold transition-colors">
@@ -205,8 +212,8 @@
 
     <header class="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-voidDeep pt-28 pb-12">
         
-        <div class="absolute inset-0 z-0">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] bg-gold/5 blur-[60px] md:blur-[120px] rounded-full pointer-events-none animate-pulse-slow will-change-transform"></div>
+        <div class="absolute inset-0 z-0 pointer-events-none">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vh] bg-gold/5 blur-[60px] md:blur-[120px] rounded-full animate-pulse-slow"></div>
             <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-15 mix-blend-overlay"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-voidDeep via-transparent to-voidDeep"></div>
         </div>
@@ -221,11 +228,11 @@
                 </div>
 
                 <h1 class="font-oswald font-bold uppercase text-white responsive-title mb-2 tracking-tight drop-shadow-2xl">
-                    Man<span class="text-transparent bg-clip-text bg-gold-gradient">ya</span>
+                    Go<span class="text-transparent bg-clip-text bg-gold-gradient">dz</span>
                 </h1>
                 
                 <h2 class="font-rajdhani text-xl md:text-2xl text-gray-400 uppercase tracking-widest mb-10 font-light border-l-2 border-white/10 pl-6">
-                    Manya • India
+                    Godz • India
                 </h2>
 
                 <div class="mb-12">
@@ -259,7 +266,7 @@
                 <div class="pt-8 border-t border-white/5 relative">
                     <div class="absolute top-0 left-0 w-16 h-[1px] bg-gold"></div>
                     <h3 class="tagline-text font-oswald font-bold uppercase leading-none drop-shadow-[0_0_20px_rgba(255,215,0,0.15)] animate-entrance">
-                        "SILENCE WINS<br>CHAMPIONSHIPS."
+                        "PRECISION IS NOT PRACTICED.<br>IT IS MASTERED."
                     </h3>
                 </div>
 
@@ -275,19 +282,19 @@
                     <div class="corner-accent corner-br"></div>
 
                     <div class="premium-frame-inner">
-                        <img src="manya.webp" 
-                             alt="Manya" 
+                        <img src="godz.webp" 
+                             alt="Godz" 
                              width="550" height="733"
                              fetchpriority="high"
                              loading="eager"
                              decoding="async"
-                             class="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105 will-change-transform">
+                             class="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105">
                         
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
                         
                         <div class="absolute bottom-6 right-6 z-20">
                             <span class="text-white/50 text-[10px] font-bold tracking-widest uppercase block text-right">GodLike</span>
-                            <span class="text-gold text-lg font-oswald font-bold tracking-widest uppercase block">02 / Manya</span>
+                            <span class="text-gold text-lg font-oswald font-bold tracking-widest uppercase block">03 / Godz</span>
                         </div>
                     </div>
                 </div>
@@ -297,7 +304,7 @@
         </div>
     </header>
 
-    <section class="py-32 bg-carbon border-y border-white/5 relative">
+    <section class="content-visibility-auto py-32 bg-carbon border-y border-white/5 relative">
         <div class="max-w-4xl mx-auto px-6 relative z-10">
             <div class="text-center mb-24 reveal">
                 <h2 class="font-oswald text-5xl text-white uppercase font-bold tracking-tight">The <span class="text-transparent bg-clip-text bg-gold-gradient">Ascension</span></h2>
@@ -308,39 +315,39 @@
                 <div class="relative pl-12 reveal">
                     <span class="absolute -left-[5px] top-2 h-2.5 w-2.5 bg-black border-2 border-gold rounded-full shadow-[0_0_10px_#FFD700]"></span>
                     <span class="text-gold font-rajdhani text-xs font-bold tracking-widest uppercase mb-2 block">The Beginning</span>
-                    <h3 class="text-white font-oswald text-3xl uppercase mb-2">Competitive Origins</h3>
-                    <p class="text-gray-400 font-rajdhani leading-relaxed text-lg">Started the journey in competitive esports, showcasing raw talent, dedication, and an unmatched drive to succeed.</p>
+                    <h3 class="text-white font-oswald text-3xl uppercase mb-2">Early Roots</h3>
+                    <p class="text-gray-400 font-rajdhani leading-relaxed text-lg">Honed his skills with a focus on tactical clarity and execution precision.</p>
                 </div>
 
                 <div class="relative pl-12 reveal">
                     <span class="absolute -left-[5px] top-2 h-2.5 w-2.5 bg-black border-2 border-gold rounded-full shadow-[0_0_10px_#FFD700]"></span>
                     <span class="text-gold font-rajdhani text-xs font-bold tracking-widest uppercase mb-2 block">The Dominance</span>
-                    <h3 class="text-white font-oswald text-3xl uppercase mb-2">Making a Mark</h3>
-                    <p class="text-gray-400 font-rajdhani leading-relaxed text-lg">Proved consistently as a top-tier athlete in major tournaments, earning recognition and instilling fear in opponents.</p>
+                    <h3 class="text-white font-oswald text-3xl uppercase mb-2">Rising Star</h3>
+                    <p class="text-gray-400 font-rajdhani leading-relaxed text-lg">Became known for maintaining composure during high-stakes moments and decisive playstyle.</p>
                 </div>
 
                 <div class="relative pl-12 reveal">
                     <span class="absolute -left-[5px] top-2 h-2.5 w-2.5 bg-black border-2 border-gold rounded-full shadow-[0_0_10px_#FFD700]"></span>
                     <span class="text-gold font-rajdhani text-xs font-bold tracking-widest uppercase mb-2 block">The Legacy</span>
                     <h3 class="text-white font-oswald text-3xl uppercase mb-2">GodLike Esports</h3>
-                    <p class="text-gray-400 font-rajdhani leading-relaxed text-lg">Joined the GodLike family, cementing a place among the elite and representing the brand at the absolute highest level.</p>
+                    <p class="text-gray-400 font-rajdhani leading-relaxed text-lg">Brought his structured and disciplined approach to the GodLike lineup, aligning with long-term competitive growth.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-32 bg-void relative overflow-hidden">
+    <section class="content-visibility-auto py-32 bg-void relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
             <h2 class="font-oswald text-4xl text-gray-500 uppercase tracking-widest mb-16">Connect</h2>
             
             <div class="flex flex-col md:flex-row justify-center gap-8">
-                <a href="https://youtube.com/@godlmanyaa?si=3m6gWdWjc8znVqFg" target="_blank" rel="noopener noreferrer" class="group relative w-full md:w-80 h-24 bg-carbon border border-white/10 flex items-center justify-center gap-4 hover:border-red-600 transition-all duration-500 clip-tech overflow-hidden hover:-translate-y-1 will-change-transform">
+                <a href="https://youtube.com/@godlgodz11?si=-9JRAZpT0wPWvuzo" target="_blank" rel="noopener noreferrer" class="group relative w-full md:w-80 h-24 bg-carbon border border-white/10 flex items-center justify-center gap-4 hover:border-red-600 transition-colors duration-500 clip-tech overflow-hidden transform hover:-translate-y-1">
                     <div class="absolute inset-0 bg-red-600/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                     <i class="fab fa-youtube text-4xl text-gray-400 group-hover:text-red-500 transition-colors z-10"></i>
                     <span class="font-oswald text-2xl text-white uppercase tracking-widest z-10">YouTube</span>
                 </a>
 
-                <a href="https://www.instagram.com/manya_bgmii?igsh=MWZzajRvdW04dnZscA==" target="_blank" rel="noopener noreferrer" class="group relative w-full md:w-80 h-24 bg-carbon border border-white/10 flex items-center justify-center gap-4 hover:border-purple-600 transition-all duration-500 clip-tech overflow-hidden hover:-translate-y-1 will-change-transform">
+                <a href="https://www.instagram.com/godl_godz11?igsh=MWFzdHRpeGp0MWVyYQ==" target="_blank" rel="noopener noreferrer" class="group relative w-full md:w-80 h-24 bg-carbon border border-white/10 flex items-center justify-center gap-4 hover:border-purple-600 transition-colors duration-500 clip-tech overflow-hidden transform hover:-translate-y-1">
                     <div class="absolute inset-0 bg-purple-600/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                     <i class="fab fa-instagram text-4xl text-gray-400 group-hover:text-purple-500 transition-colors z-10"></i>
                     <span class="font-oswald text-2xl text-white uppercase tracking-widest z-10">Instagram</span>
@@ -349,7 +356,7 @@
         </div>
     </section>
 
-    <footer class="bg-black border-t border-white/10 py-10 text-center">
+    <footer class="content-visibility-auto bg-black border-t border-white/10 py-10 text-center">
         <p class="font-rajdhani text-gray-600 text-xs font-bold uppercase tracking-[0.2em]">&copy; 2026 GodLike Esports. All Rights Reserved.</p>
     </footer>
 
@@ -364,6 +371,8 @@
             const muteIcon = document.getElementById('muteIcon');
             const progressFill = document.getElementById('progressFill');
             const visualizer = document.getElementById('visualizer');
+            
+            let audioLoaded = false;
 
             // --- UI UPDATE FUNCTION ---
             function updateUI(isPlaying) {
@@ -378,7 +387,6 @@
                 }
             }
 
-            // --- END LOGIC ---
             audio.addEventListener('ended', () => {
                 updateUI(false);
                 audio.currentTime = 0;
@@ -387,8 +395,13 @@
 
             // --- MANUAL CONTROLS ---
             playBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Safe boundary
+                e.stopPropagation(); // Prevent duplicate triggers
                 
+                if (!audioLoaded) {
+                    audio.load();
+                    audioLoaded = true;
+                }
+
                 if (audio.paused) {
                     const playPromise = audio.play();
                     if (playPromise !== undefined) {
@@ -406,7 +419,7 @@
             });
 
             muteBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // Safe boundary
+                e.stopPropagation(); // Prevent duplicate triggers
                 audio.muted = !audio.muted;
                 if (audio.muted) {
                     muteIcon.classList.remove('fa-volume-up');
@@ -443,7 +456,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        observer.unobserve(entry.target); // Unobserve to save resources
+                        observer.unobserve(entry.target); // Unobserve to save memory
                     }
                 });
             }, observerOptions);
